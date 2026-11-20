@@ -1,0 +1,762 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>운동 대시보드 — 2026년 11월</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<style>
+  :root{
+    --bg:#eef1ec; --surface:#ffffff; --surface2:#f4f6f2; --ink:#18211a; --muted:#5d6c60;
+    --line:#dde3da; --green:#0f6b3f; --green-soft:#e3f0e7; --green-ink:#0b5a34;
+    --amber:#9a6a12; --amber-soft:#fdf3da; --red:#a83a2a; --red-soft:#fbe9e5;
+    --today:#e8f3ec; --shadow:0 1px 2px rgba(20,30,22,.06),0 6px 18px rgba(20,30,22,.05);
+    --radius:14px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0d130f; --surface:#161e18; --surface2:#1b251e; --ink:#e9f0ea; --muted:#9db0a2;
+      --line:#26332a; --green:#4cc38a; --green-soft:#173b28; --green-ink:#7ed6a8;
+      --amber:#e0b45c; --amber-soft:#3a2f14; --red:#e88a7a; --red-soft:#3d211c;
+      --today:#1a2e22; --shadow:0 1px 2px rgba(0,0,0,.35),0 8px 22px rgba(0,0,0,.3);
+    }
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    font-size:15px;line-height:1.55}
+  .wrap{max-width:1060px;margin:0 auto;padding:28px 20px 56px}
+  h1{font-size:30px;line-height:1.25;margin:0;letter-spacing:-.02em;font-weight:800}
+  h2{font-size:19px;margin:0 0 12px;letter-spacing:-.01em;font-weight:800}
+  h3{font-size:15px;margin:0 0 6px;font-weight:750}
+  p{margin:0}
+  .sub{color:var(--muted);margin-top:6px;font-size:14px}
+  .sub b{color:var(--ink)}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px}
+  section{margin-top:22px}
+  .section-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .section-head .note{color:var(--muted);font-size:13px}
+  .muted{color:var(--muted)}
+  .small{font-size:13px}
+
+  /* KPI */
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:20px}
+  .kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px 16px 14px;box-shadow:var(--shadow)}
+  .kpi .label{font-size:13px;color:var(--muted);font-weight:600}
+  .kpi .num{font-size:26px;font-weight:800;letter-spacing:-.02em;margin-top:4px}
+  .kpi .num .unit{font-size:14px;font-weight:700;color:var(--muted);margin-left:2px}
+  .kpi .num .plan-part{color:var(--muted);font-size:16px;font-weight:700;white-space:nowrap}
+  .kpi .foot{font-size:13px;color:var(--muted);margin-top:2px}
+  .bar{height:8px;border-radius:99px;background:var(--surface2);border:1px solid var(--line);overflow:hidden;margin-top:10px}
+  .bar i{display:block;height:100%;background:var(--green);border-radius:99px}
+
+  /* Achievement green box */
+  .achieve{background:var(--green);color:#fff;border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow)}
+  @media (prefers-color-scheme: dark){.achieve{background:#1c6e44}}
+  .achieve h2{color:#fff}
+  .achieve ul{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:10px}
+  .achieve li{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;line-height:1.5}
+  .check{flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:#fff;color:var(--green-ink);
+    display:inline-flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;margin-top:1px}
+  .achieve .who{font-weight:750}
+  .missed{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.35);font-size:13.5px;color:rgba(255,255,255,.92)}
+  .missed b{font-weight:750}
+
+  /* Milestones */
+  .miles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .mile{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .mile .d{font-size:13px;color:var(--amber);font-weight:800}
+  .mile .t{font-weight:800;margin-top:2px}
+  .mile .x{font-size:13px;color:var(--muted);margin-top:2px}
+
+  /* Chart */
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .sw{width:12px;height:12px;border-radius:3px;display:inline-block}
+  .chart-wrap{overflow:hidden}
+  svg.chart{width:100%;height:auto;display:block}
+  .weeks{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:14px}
+  .week{background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+  .week .wl{font-size:12.5px;color:var(--muted);font-weight:700}
+  .week .wv{font-weight:800;font-size:16px;margin-top:2px}
+  .week .wv .unit{font-size:12px;color:var(--muted);font-weight:700}
+
+  /* Toolbar */
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+  .toolbar .group{display:flex;gap:6px;flex-wrap:wrap}
+  .toolbar .sep{width:1px;height:22px;background:var(--line);margin:0 2px}
+  .chip{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);
+    border-radius:99px;padding:7px 13px;font:inherit;font-size:13.5px;font-weight:650;cursor:pointer}
+  .chip:hover{border-color:var(--green)}
+  .chip[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+  @media (prefers-color-scheme: dark){.chip[aria-pressed="true"]{color:#0d130f}}
+  .view-toggle{margin-left:auto}
+  .count-line{font-size:13px;color:var(--muted);margin:-6px 0 12px}
+
+  /* Schedule table */
+  table.schedule{width:100%;border-collapse:collapse;font-size:14px}
+  .schedule th{text-align:left;font-size:12.5px;color:var(--muted);font-weight:700;padding:9px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+  .schedule td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  .schedule tbody tr{cursor:pointer}
+  .schedule tbody tr:hover{background:var(--surface2)}
+  .schedule tbody tr.selected{background:var(--today)}
+  .schedule tbody tr.today-row{background:var(--today)}
+  .date-cell{white-space:nowrap;font-weight:750}
+  .date-cell .dow{color:var(--muted);font-weight:600;font-size:13px;margin-left:4px}
+  .badge{display:inline-block;font-size:11.5px;font-weight:800;padding:2px 7px;border-radius:99px;vertical-align:2px;margin-left:6px;white-space:nowrap}
+  .badge.today{background:var(--green);color:#fff}
+  .badge.key{background:var(--amber-soft);color:var(--amber);border:1px solid currentColor}
+  .badge.done{background:var(--green-soft);color:var(--green-ink)}
+  .badge.partial{background:var(--amber-soft);color:var(--amber)}
+  .cell-key{background:var(--amber-soft)}
+  .cell-done{font-weight:650}
+  .cell-missed{color:var(--muted)}
+  .sun{color:var(--red)}
+  .empty{color:var(--muted)}
+  .detail-note{font-size:12.5px;color:var(--muted);margin-top:3px}
+
+  /* Mobile day cards */
+  .day-cards{display:none}
+  .day-card{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px;background:var(--surface);cursor:pointer;text-align:left;width:100%;font:inherit;color:inherit}
+  .day-card.selected{outline:2px solid var(--green);outline-offset:-1px}
+  .day-card.today-card{background:var(--today)}
+  .day-card .head{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-weight:800}
+  .slot-row{display:grid;grid-template-columns:44px 1fr;gap:10px;padding:7px 0;border-top:1px dashed var(--line);font-size:14px}
+  .slot-row:first-of-type{border-top:none}
+  .slot-row .slot-label{color:var(--muted);font-size:13px;font-weight:700;padding-top:1px}
+
+  /* Calendar */
+  .cal-head,.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+  .cal-head{margin-bottom:6px}
+  .cal-head div{text-align:center;font-size:12.5px;font-weight:700;color:var(--muted);padding:4px 0}
+  .cal-cell{border:1px solid var(--line);border-radius:10px;background:var(--surface);min-height:96px;padding:8px 9px;text-align:left;font:inherit;color:inherit;cursor:pointer;display:flex;flex-direction:column;gap:3px}
+  .cal-cell:hover{border-color:var(--green)}
+  .cal-cell.selected{outline:2px solid var(--green);outline-offset:-1px}
+  .cal-cell.today-cell{background:var(--today);border-color:var(--green)}
+  .cal-cell .num{font-weight:800;font-size:14px}
+  .cal-cell .num .dow-s{font-weight:600;font-size:11.5px;color:var(--muted);margin-left:2px}
+  .cal-cell .line{font-size:12px;line-height:1.35;display:flex;gap:5px;align-items:flex-start}
+  .cal-cell .dot{flex:0 0 auto;width:7px;height:7px;border-radius:50%;margin-top:5px}
+  .dot.run{background:#2e9e66}.dot.weight{background:#c07f1a}.dot.mobility{background:#5b8db8}.dot.rest{background:#8a9a8e}.dot.bike{background:#7a6bc4}
+  .cal-cell.dim{opacity:.38}
+  .cal-cell .done-mark{color:var(--green-ink);font-weight:800;font-size:12px}
+
+  /* Detail panel */
+  .detail{border:1px solid var(--line);border-radius:var(--radius);background:var(--surface2);padding:18px 20px;margin-top:14px}
+  .detail h3{font-size:17px}
+  .detail dl{margin:12px 0 0;display:grid;gap:10px}
+  .detail .row{display:grid;grid-template-columns:52px 1fr;gap:10px;font-size:14.5px}
+  .detail dt{color:var(--muted);font-weight:700;font-size:13.5px}
+  .detail dd{margin:0}
+  .detail .extra{margin-top:12px;font-size:13.5px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+  .detail .extra b{display:block;margin-bottom:4px}
+
+  /* Reference grids */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .ref-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow)}
+  .ref-card ul{margin:8px 0 0;padding-left:18px;display:grid;gap:7px;font-size:14px}
+  .ref-card li::marker{color:var(--green)}
+  .timeline{margin:8px 0 0;padding:0;list-style:none;display:grid;gap:10px;font-size:14px}
+  .timeline li{display:grid;grid-template-columns:52px 1fr;gap:10px}
+  .timeline .td{font-weight:750;white-space:nowrap}
+  .rules{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .rule{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:14px}
+  .rule b{display:block;margin-bottom:3px}
+  .rule span{color:var(--muted);font-size:13.5px}
+
+  footer{margin-top:28px;color:var(--muted);font-size:13px}
+
+  @media (max-width: 760px){
+    .wrap{padding:20px 14px 48px}
+    h1{font-size:25px}
+    .kpis{grid-template-columns:1fr 1fr}
+    .kpi .num{font-size:23px}
+    .kpi .num .plan-part{display:block;font-size:14px;margin-top:2px}
+    .miles{grid-template-columns:1fr 1fr}
+    .weeks{grid-template-columns:repeat(2,1fr)}
+    .grid2{grid-template-columns:1fr}
+    .rules{grid-template-columns:1fr}
+    .schedule-wrap{display:none}
+    .day-cards{display:block}
+    .cal-cell{min-height:76px;padding:6px 6px}
+    .cal-cell .line{font-size:11px}
+    .view-toggle{margin-left:0}
+    .toolbar .sep{display:none}
+  }
+  @media print{
+    body{background:#fff}
+    .toolbar,.view-toggle{display:none!important}
+    .card,.kpi,.ref-card{box-shadow:none}
+    .schedule-wrap{display:block!important}
+    .day-cards{display:none!important}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none!important}
+  }
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <header>
+    <h1>2026년 11월 운동 계획</h1>
+    <p class="sub">평일 아침 5시 출발 · 주말 아침 7~8시 출발 · 평일 저녁은 자전거 퇴근 · 주중 저녁 운동 없음 · <b>오늘 11월 19일(목)</b> · 기록 기준 11월 19일</p>
+  </header>
+
+  <!-- KPI -->
+  <div class="kpis" aria-label="11월 요약">
+    <div class="kpi">
+      <div class="label">러닝 거리 · 실적 / 계획</div>
+      <div class="num"><span id="kpiRunDone">–</span><span class="unit">km</span> <span class="plan-part">/ <span id="kpiRunPlan">–</span>km</span></div>
+      <div class="bar" aria-hidden="true"><i id="runBar" style="width:0%"></i></div>
+      <div class="foot" id="kpiRunFoot">–</div>
+    </div>
+    <div class="kpi">
+      <div class="label">러닝 완료</div>
+      <div class="num"><span id="kpiRunDays">–</span></div>
+      <div class="foot">계획된 러닝 날짜 기준</div>
+    </div>
+    <div class="kpi">
+      <div class="label">웨이트 완료</div>
+      <div class="num"><span id="kpiWeight">–</span></div>
+      <div class="foot">상체 · A·B형 합산 · <span id="kpiWeightKg">–</span></div>
+    </div>
+    <div class="kpi">
+      <div class="label">자전거 퇴근 완료</div>
+      <div class="num"><span id="kpiBike">–</span></div>
+      <div class="foot">확인된 실적만 집계 · <span id="kpiBikeKm">–</span></div>
+    </div>
+  </div>
+
+  <!-- Achievement green box -->
+  <section aria-labelledby="achieveH">
+    <div class="achieve">
+      <h2 id="achieveH">달성 현황</h2>
+      <ul>
+        <li><span class="check" aria-hidden="true">✓</span><span><span class="who">11월 1일(일) 러닝 달성</span> — 11.75km, 1시간 35분 44초, 평균 8′09″/km, 평균 심박 151</span></li>
+        <li><span class="check" aria-hidden="true">✓</span><span><span class="who">11월 2일(월) 점심 상체 웨이트 달성</span> — 체스트프레스 61→47kg · 풀다운 54kg · 숄더프레스 39→32kg · 레터럴레이즈 15kg · 케이블 로우 42.5→50kg · 암풀다운 12kg</span></li>
+        <li><span class="check" aria-hidden="true">✓</span><span><span class="who">11월 8일(일) 10km 2회차 달성</span> — 10.04km, 1:09:57, 평균 6′58″/km, 평균 심박 156 · 1회차 1:18:09보다 8분 12초 단축 · 발목 통증 없음</span></li>
+        <li><span class="check" aria-hidden="true">★</span><span><span class="who">11월 15일(일) LSD 10km — 신기록(PR) 달성</span> — 10.02km, 1:06:03, 평균 6′36″/km, 평균 심박 135 · 이전 최고 1:09:57보다 3분 54초 단축, 평균 심박 156→135로 21bpm 하락</span></li>
+        <li><span class="check" aria-hidden="true">✓</span><span><span class="who">웨이트 · 자전거</span> — A형 11/3·11/10, B형 11/5, 상체 11/9 (24세트 312회) 완료 · 자전거 퇴근 11/9~11/13 확인된 날 완료</span></li>
+        <li><span class="check" aria-hidden="true">✓</span><span><span class="who">체중</span> — 11/3 89.6kg → 11/5 89.5kg → 11/10 88.5kg → 11/12 88.3kg → 11/13 88.1kg (최신)</span></li>
+      </ul>
+      <p class="missed"><b>미실시 · 미확인:</b> 11/2 아침 러닝 · 자전거 (바디 배터리 46) · 11/11 아침 러닝 (전날 고강도 여파) · 11/12 아침 러닝 · B형 · 11/13 인터벌, B형 미확인 (가민 기록 없음) · 11/14 러닝 미확인 (기록 없음) · 11/18 퇴근 자전거 (우측 무릎 앞쪽 통증으로 취소).</p>
+    </div>
+  </section>
+
+  <!-- Milestones -->
+  <section aria-labelledby="mileH">
+    <h2 id="mileH">11월 목표 지점</h2>
+    <div class="miles">
+      <div class="mile"><div class="d">11월 8일(일)</div><div class="t">10km 2회차 — 완료</div><div class="x">1:09:57 · 평균 6′58″ · 1회차보다 8분 12초 단축</div></div>
+      <div class="mile"><div class="d">11월 15일(일)</div><div class="t">LSD 10km — ★ PR</div><div class="x">1:06:03 · 평균 6′36″ · 평균 심박 135 · 신기록</div></div>
+      <div class="mile"><div class="d">11월 22일(일)</div><div class="t">10km 3회차</div><div class="x">약 1시간 20분</div></div>
+      <div class="mile"><div class="d">11월 29일(일)</div><div class="t">판단일 10km</div><div class="x">3회 통과 시 7′30″, 아니면 7′45″ 반복 또는 8km</div></div>
+    </div>
+  </section>
+
+  <!-- Chart -->
+  <section aria-labelledby="chartH">
+    <div class="card">
+      <div class="section-head">
+        <h2 id="chartH">날짜별 러닝 거리</h2>
+        <div class="legend"><span><i class="sw" style="background:#0f6b3f"></i>실적 (완료)</span><span><i class="sw" style="background:#9dc7ad"></i>계획</span><span>막대 없는 날은 러닝 없음</span></div>
+      </div>
+      <p class="small muted" style="margin-bottom:10px">11월 18일까지는 실측 거리, 이후는 계획 거리. 진한 초록이 실적, 연한 초록이 계획이다.</p>
+      <div class="chart-wrap" id="chartWrap" role="img" aria-label="날짜별 러닝 거리 막대 그래프. 11월 18일까지 실적, 11월 15일 LSD 10.02km 신기록 포함, 이후는 계획 거리."></div>
+      <div class="weeks" id="weeks"></div>
+    </div>
+  </section>
+
+  <!-- Schedule -->
+  <section aria-labelledby="schedH">
+    <div class="section-head">
+      <h2 id="schedH">11월 일정표</h2>
+      <span class="note">날짜를 누르면 아래에 상세가 뜹니다 · ★는 10km·판단일</span>
+    </div>
+
+    <div class="toolbar" role="group" aria-label="일정 보기 조절">
+      <div class="group" id="kindFilters" role="group" aria-label="종류별 보기">
+        <button type="button" class="chip" data-kind="all" aria-pressed="true">전체</button>
+        <button type="button" class="chip" data-kind="run" aria-pressed="false">러닝</button>
+        <button type="button" class="chip" data-kind="weight" aria-pressed="false">웨이트</button>
+        <button type="button" class="chip" data-kind="mobility" aria-pressed="false">모빌리티·허리</button>
+        <button type="button" class="chip" data-kind="rest" aria-pressed="false">휴식·걷기</button>
+        <button type="button" class="chip" data-kind="bike" aria-pressed="false">자전거 퇴근</button>
+      </div>
+      <span class="sep" aria-hidden="true"></span>
+      <div class="group" id="weekFilters" role="group" aria-label="주별 보기">
+        <button type="button" class="chip" data-week="all" aria-pressed="true">11월 전체</button>
+        <button type="button" class="chip" data-week="w1" aria-pressed="false">1주 (1~7일)</button>
+        <button type="button" class="chip" data-week="w2" aria-pressed="false">2주 (8~14일)</button>
+        <button type="button" class="chip" data-week="w3" aria-pressed="false">3주 (15~21일)</button>
+        <button type="button" class="chip" data-week="w4" aria-pressed="false">4주 (22~28일)</button>
+        <button type="button" class="chip" data-week="w5" aria-pressed="false">5주 (29~30일)</button>
+      </div>
+      <div class="group view-toggle" role="group" aria-label="보기 방식">
+        <button type="button" class="chip" id="viewTable" aria-pressed="true">표</button>
+        <button type="button" class="chip" id="viewCal" aria-pressed="false">달력</button>
+      </div>
+    </div>
+    <p class="count-line" id="countLine"></p>
+
+    <div class="card schedule-wrap" id="tableView" style="padding:6px 10px 10px">
+      <table class="schedule">
+        <thead><tr><th scope="col">날짜</th><th scope="col">아침</th><th scope="col">점심</th><th scope="col">저녁</th><th scope="col">상태</th></tr></thead>
+        <tbody id="schedBody"></tbody>
+      </table>
+    </div>
+
+    <div class="day-cards" id="cardView"></div>
+
+    <div id="calView" hidden>
+      <div class="cal-head" aria-hidden="true"><div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div></div>
+      <div class="cal-grid" id="calGrid"></div>
+    </div>
+
+    <div class="detail" id="dayDetail" aria-live="polite"></div>
+  </section>
+
+  <!-- A / B reference -->
+  <section aria-labelledby="abH">
+    <h2 id="abH">웨이트 A형 · B형 · 상체</h2>
+    <div class="grid2">
+      <div class="ref-card">
+        <h3>A형 <span class="muted" style="font-weight:600">— 화요일 · 11월 24일은 70% 중량</span></h3>
+        <ul>
+          <li>데드리프트 100kg × 6회 × 3세트</li>
+          <li>힙쓰러스트 120kg × 12회 × 3세트 (3세트 모두 끝 10초 버티기)</li>
+          <li>스텝업 20kg 덤벨 × 10회 × 3세트 (각 다리)</li>
+          <li>아웃타이 105kg × 12회 × 3세트</li>
+          <li>백 익스텐션 10kg × 15회 × 3세트</li>
+          <li>허리 보완 5분 (데드버그 · 버드독)</li>
+        </ul>
+        <p class="small muted" style="margin-top:10px">A형 70%는 중량을 70%로. 불가리안 스플릿 스쿼트는 10km 3회 통과 전까지 쉼. 불편감 없이 2주 이어진 뒤 한 종목씩 5% 이내 증량.</p>
+      </div>
+      <div class="ref-card">
+        <h3>B형 <span class="muted" style="font-weight:600">— 목요일</span></h3>
+        <ul>
+          <li>① 시티드 레그프레스 125kg × 12회 × 3세트 &amp; 카프레이즈 125kg × 12회 × 3세트</li>
+          <li>② 레그 익스텐션 54kg × 12회 × 3세트 &amp; 레그 컬 54kg × 12회 × 3세트</li>
+          <li>이너타이 124kg × 12회 × 3세트</li>
+          <li>플랭크 6분 (정면 40초 · 좌 40초 · 우 40초 × 3세트)</li>
+        </ul>
+        <p class="small muted" style="margin-top:10px">허리 보완은 주 3회 (화 A형 · 목 아침 · 목 B형). 트레드밀은 11/18부터 폐지.</p>
+      </div>
+    </div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="ref-card" style="grid-column:1/-1">
+        <h3>상체 <span class="muted" style="font-weight:600">— 슈퍼세트 · 총 24세트 312회</span></h3>
+        <ul>
+          <li>① 페이스풀 10kg × 12회 × 3세트 &amp; 암풀다운 17.5kg × 12회 × 3세트</li>
+          <li>② 체스트프레스머신 47kg × 12회 × 3세트 &amp; 체스트플라이머신 30kg × 12회 × 3세트</li>
+          <li>③ 어시스트 내로우 친업 (몸무게−43.75kg) × 12회 × 3세트 &amp; 케이블 로우로우 50kg × 12회 × 3세트</li>
+          <li>④ 숄더프레스머신 32kg × 12회 × 3세트 &amp; 사이드 레터럴레이즈머신 15kg × 20회 × 3세트</li>
+        </ul>
+        <p class="small muted" style="margin-top:10px">이두·삼두 분리 운동 없음 (근육 유지 목적). 2026-11-16 확정 버전.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mobility reference -->
+  <section aria-labelledby="mobH">
+    <h2 id="mobH">모빌리티 · 허리 보완</h2>
+    <div class="grid2">
+      <div class="ref-card">
+        <h3>화요일 아침 <span class="muted" style="font-weight:600">— 10분</span></h3>
+        <ul>
+          <li>발목 돌리기 좌우 10회씩</li>
+          <li>한 발씩 까치발 10회</li>
+          <li>백런지 6개씩 양쪽</li>
+          <li>종아리·햄스트링·둔근 스트레칭 각 30초</li>
+        </ul>
+        <p class="small muted" style="margin-top:10px">러닝 전 점검과 동일. 발목·아치·무릎·허리 확인.</p>
+      </div>
+      <div class="ref-card">
+        <h3>목요일 아침 <span class="muted" style="font-weight:600">— 모빌리티 + 허리 보완</span></h3>
+        <ul>
+          <li>발목 돌리기 좌우 10회씩</li>
+          <li>한 발씩 까치발 10회</li>
+          <li>백런지 6개씩 양쪽</li>
+          <li>데드버그 2세트 × 8~10회</li>
+          <li>버드독 좌우 8회 × 2세트 (2초 유지)</li>
+        </ul>
+        <p class="small muted" style="margin-top:10px">허리 보완 주 3회 중 목요일 아침 분. 허리를 바닥에 붙인 채로.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Baseline -->
+  <section aria-labelledby="baseH">
+    <h2 id="baseH">출발점 · 몸 상태</h2>
+    <div class="grid2">
+      <div class="ref-card">
+        <h3>최근 일주일 — Garmin (10월 27일~11월 2일)</h3>
+        <ul>
+          <li>활동 5개 — 러닝 2회, 트레드밀 1회, 사이클링 2회</li>
+          <li>수면 7일 평균 80점 · 7시간 34분</li>
+          <li>걸음 7일 합계 94,333걸음</li>
+          <li>안정 심박 평균 54bpm (51~58bpm)</li>
+          <li>체중 90.5kg(10/27) → 89.3kg(10/31) → 88.0kg(11/1) — 측정 시간대가 달라 감량으로 그대로 보긴 어려움</li>
+        </ul>
+        <h3 style="margin-top:18px">체중 추이 · 인바디 (11월)</h3>
+        <ul>
+          <li>체중 — 11/3 89.6kg → 11/5 89.5kg → 11/10 88.5kg → 11/12 88.3kg → 11/13 88.1kg (최신)</li>
+          <li>인바디 770 (11/7) — 체중 89.3kg · 골격근량 37.2kg · 체지방률 27.7% · 내장지방단면적 100.4cm² · 적정체중 75.9kg</li>
+          <li>11/11 트레이닝 상태 — 비생산적 (무산소 부족) · VO2 Max 42</li>
+        </ul>
+        <h3 style="margin-top:18px">11월 2일 웨이트 상세</h3>
+        <ul>
+          <li>체스트프레스 61kg 12회 → 61kg 6회 → 47kg 12회 × 2</li>
+          <li>풀다운 54kg 12회 × 3 · 숄더프레스 39kg 12회 → 32kg 12회 × 2</li>
+          <li>레터럴레이즈 15kg 20회 × 3 · 케이블 로우 42.5kg → 50kg 12회 × 2 · 암풀다운 12kg 12회 × 3</li>
+          <li>아르기닌 1,500mg 첫 복용</li>
+        </ul>
+      </div>
+      <div class="ref-card">
+        <h3>10월 기록 — 복귀 과정</h3>
+        <ul class="timeline">
+          <li><span class="td">10/2</span><span>복귀런 5.3km · 평균 6′41″ · 심박 134</span></li>
+          <li><span class="td">10/4</span><span>6.25km 후 왼발목 불편 신호</span></li>
+          <li><span class="td">10/6</span><span>웨이트 기록 있음 (당시 체중 93kg)</span></li>
+          <li><span class="td">10/8</span><span>왼 아킬레스 + 오른 햄스트링 뻐근함으로 스킵</span></li>
+          <li><span class="td">10/9</span><span>6km A 평가 · 평균 6′39″ · 심박 133</span></li>
+          <li><span class="td">10/25</span><span>10km 1회차 1:18:09 · 평균 7′48″ · 심박 144</span></li>
+          <li><span class="td">10/28</span><span>러닝 5.07km · 7′19″/km · 심박 145 · 사이클링 10km</span></li>
+          <li><span class="td">10/30</span><span>트레드밀 0.64km · 사이클링 7.6km</span></li>
+        </ul>
+        <p class="small muted" style="margin-top:12px">러닝 페이스는 폰 GPS 기준. Garmin 기기 사용은 10월 26일경부터라 그 이전 기록은 없음.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rules -->
+  <section aria-labelledby="ruleH">
+    <h2 id="ruleH">달리기 기준</h2>
+    <div class="rules">
+      <div class="rule"><b>페이스 · 심박</b><span>7′50″~8′00″/km · 10km 날 첫 5km는 8′20″ · 심박 상한 146, 넘으면 30초 걷기</span></div>
+      <div class="rule"><b>러닝 전 점검</b><span>한 발씩 까치발 10회 · 발목 · 아치 · 무릎 · 허리 점검</span></div>
+      <div class="rule"><b>신호가 오면</b><span>애매하면 거리 절반 · 휴식 (보충 없음) · 신호 2주 연속이면 월요일 러닝 빼고 주 3회로</span></div>
+      <div class="rule"><b>신발</b><span>KS900 (10km 날) · EVO SL (4km 이하 시험) · 신발끈 발등 느슨하게, 발목 러너스 루프</span></div>
+      <div class="rule"><b>10km 날 아침</b><span>바나나 또는 주먹밥 + 물 300~500ml</span></div>
+      <div class="rule"><b>보충</b><span>크레아틴 5g 매일 · 단백질 110~140g/일 · 러닝 후 30~60분 내 보충, 점심 후 프로틴 셰이크</span></div>
+    </div>
+  </section>
+
+  <footer>계획 거리는 추정치, 달성 기록은 실측. 11월 18일까지 실적 반영 (11월 17일 상체 슈퍼세트는 계획으로 유지), 11월 19일 이후 일정은 계획이다.</footer>
+</main>
+
+<script>
+(function(){
+  "use strict";
+  var DOW = ["일","월","화","수","목","금","토"];
+  function slot(kind,label,opts){
+    var s={kind:kind,label:label};
+    if(opts){for(var k in opts){s[k]=opts[k];}}
+    return s;
+  }
+  function none(){return slot("none","—");}
+  function bike(){return slot("bike","자전거 퇴근",{short:"자전거"});}
+  function bikeMissed(){return slot("bike","자전거 미실시",{missed:true,short:"미실시"});}
+  function run(km,time,opts){
+    var o={km:km,short:"러닝 "+km+"km"};
+    if(opts){for(var k in opts){o[k]=opts[k];}}
+    return slot("run","러닝 "+km+"km · "+time,o);
+  }
+  function mob(label){return slot("mobility",label,{short:"모빌리티"});}
+  function rest(label){return slot("rest",label,{short:"휴식·걷기"});}
+  function weight(label,form,opts){
+    var o={form:form,short:label};
+    if(opts){for(var k in opts){o[k]=opts[k];}}
+    return slot("weight",label,o);
+  }
+
+  var DAYS=[
+    {d:1, morning:run(11.75,"1시간 35분 44초",{done:true,timeDetail:"평균 8′09″/km · 평균 심박 151"}), lunch:none(), evening:none(), key:false, status:"done"},
+    {d:2, morning:slot("rest","러닝 미실시 (바디 배터리 46)",{missed:true,short:"러닝 미실시"}), lunch:weight("상체 웨이트","upper",{done:true,detail:"체스트프레스 61kg 12회 → 61kg 6회 → 47kg 12회 × 2 · 풀다운 54kg 12회 × 3 · 숄더프레스 39kg 12회 → 32kg 12회 × 2 · 레터럴레이즈 15kg 20회 × 3 · 케이블 로우 42.5kg 12회 → 50kg 12회 × 2 · 암풀다운 12kg 12회 × 3"}), evening:bikeMissed(), key:false, status:"partial"},
+    {d:3, morning:mob("모빌리티 10분"), lunch:weight("A형","",{done:true,detail:"데드리프트 100×6×3 · 힙쓰러스트 120×12×3 · 힙어브덕션 110×12×3 · 트레드밀 10분 · 40분 · 허리 보완 미실시"}), evening:bike(), key:false, status:"partial"},
+    {d:4, morning:run(4.82,"34:28",{done:true,timeDetail:"평균 7′13″/km · 평균심박 150 / 최대 178 · 트랙 · EVO SL"}), lunch:none(), evening:bike(), key:false, status:"done"},
+    {d:5, morning:mob("모빌리티 · 허리 보완"), lunch:weight("B형","",{done:true,detail:"레그프레스 125×12×3 · 카프레이즈 125×12×3 · 이너타이 124×12×3 · 플랭크 5분 · 총 20세트 108회 13,464kg · 우측 내측 복숭아뼈 뒤 불편감 (후경골근 의심) — 다음 B형에서 발 11자로 교정"}), evening:bike(), key:false, status:"done"},
+    {d:6, morning:run(5.23,"47:28",{done:true,timeDetail:"평균 9′05″/km · 평균심박 128 / 최대 144 · 느리게 · 발목 통증 없음"}), lunch:none(), evening:bike(), key:false, status:"done"},
+    {d:7, morning:slot("rest","휴식 · 걷기 — 보행 5.96km",{done:true,short:"걷기 5.96km",detail:"1:27:56 · 평균심박 98 · 인바디 770: 체중 89.3kg · 골격근량 37.2kg · 체지방률 27.7% · 내장지방 100.4cm² · 적정체중 75.9kg"}), lunch:none(), evening:none(), key:false, status:"done"},
+    {d:8, morning:run(10.04,"1:09:57",{done:true,key:true,short:"10km 2회차",timeDetail:"평균 6′58″/km · 평균심박 156 / 최대 184 · 1회차 1:18:09보다 8분 12초 단축 · 발목 통증 없음"}), lunch:none(), evening:none(), key:true, status:"done"},
+    {d:9, morning:rest("휴식 · 걷기 20~30분"), lunch:weight("상체 웨이트","",{done:true,detail:"24세트 · 312회 · 9,642kg · 40:00 · 페이스풀 · 암풀다운 · 체스트프레스 · 체스트플라이 · 어시스트친업 · 랫풀다운 · 케이블로우 · 로우머신 · 숄더프레스 · 레터럴레이즈"}), evening:slot("bike","자전거 퇴근 7.60km",{done:true,short:"자전거 7.60km"}), key:false, status:"done"},
+    {d:10, morning:run(4.8,"29:39",{done:true,timeDetail:"평균 6′11″/km · 평균심박 166 / 최대 183 · 트랙 · 계획 외 고강도"}), lunch:weight("A형 100%","",{done:true,detail:"데드리프트 100×7×3 · 힙쓰러스트 120×12×3 · 힙어브덕션 80×13×3 · 총 13세트 128회 9,540kg · 40:01 · 70% 계획과 달리 100%로 수행"}), evening:slot("bike","자전거 퇴근 6.98km",{done:true,short:"자전거 6.98km"}), key:false, status:"done"},
+    {d:11, morning:slot("rest","러닝 미실시 (전날 무리 — 6′11″ 고강도 + A형)",{missed:true,short:"러닝 미실시",detail:"트레이닝 상태: 비생산적 (무산소 부족) · VO2 Max 42"}), lunch:none(), evening:slot("bike","자전거 퇴근 7.63km",{done:true,short:"자전거 7.63km"}), key:false, status:"partial"},
+    {d:12, morning:slot("rest","러닝 미실시 (컨디션 저하)",{missed:true,short:"러닝 미실시"}), lunch:slot("run","트레드밀 러닝 5.58km · 40:01",{km:5.58,done:true,short:"트레드밀 5.58km",timeDetail:"평균 7′10″/km · 평균심박 144 / 최대 179 · B형 미실시"}), evening:bike(), key:false, status:"partial"},
+    {d:13, morning:slot("rest","인터벌 미실시",{missed:true,short:"인터벌 미실시"}), lunch:slot("weight","B형 — 미확인",{form:"",short:"B형 미확인",detail:"미확인 · 가민 기록 없음"}), evening:slot("bike","자전거 퇴근 7.03km",{done:true,short:"자전거 7.03km",detail:"24:47 · 평균심박 117"}), key:false, status:"partial"},
+    {d:14, morning:slot("rest","러닝 — 미확인",{short:"러닝 미확인",detail:"미확인 · 기록 없음"}), lunch:none(), evening:none(), key:false, status:"partial"},
+    {d:15, morning:run(10.02,"1:06:03",{done:true,key:true,short:"★ LSD 10km PR",timeDetail:"평균 6′36″/km · 평균심박 135 / 최대 171 · 814kcal",detail:"★ 신기록(PR) — 이전 최고 1:09:57(11/8)보다 3분 54초 단축 · 평균심박 156→135 (21bpm 하락) · EVO SL + 가슴 심박센서 (연결 간헐적 끊김) · 수면 95점 (8시간 55분) · 바디배터리 99 · HRV BALANCED (기준선 완성) · 달린 후 통증: 우측 무릎 · 양쪽 발 바깥쪽 · 뒤꿈치 (EVO SL 뒤꿈치 고정 안 됨 추정)"}), lunch:none(), evening:none(), key:true, status:"done"},
+    {d:16, morning:run(5.16,"45:33",{done:true,timeDetail:"평균 8′49″/km · 평균심박 127 / 최대 142 · 계획 4km보다 길었으나 저강도 · 걷기 1km 추가 · 통증 해소됨 (사용자 확인)"}), lunch:none(), evening:bike(), key:false, status:"done"},
+    {d:17, morning:mob("모빌리티 10분"), lunch:weight("상체 웨이트 — 슈퍼세트 (계획)","UPPER_SS",{detail:"A형 대신 상체로 변경 · 슈퍼세트 4개 · 총 24세트 312회 (계획)"}), evening:bike(), key:false, status:"planned"},
+    {d:18, morning:run(8.48,"1:14:42",{done:true,timeDetail:"평균 8′48″/km · 평균심박 132 / 최대 147 · 643kcal · 05:26 시작",detail:"2존(116~135) 유지 목적 이지런 · 평균심박 132로 2존 상단 · 계획 5km보다 3.48km 길게 뜀 · 가민 활동 25113443472 · 우측 무릎 앞쪽 통증 발생"}), lunch:weight("B형","B",{done:true,detail:"신규 루틴 첫 시행 · 목요일에서 수요일로 이동 · 무릎 통증 있음에도 수행"}), evening:slot("rest","자전거 미실시 (무릎 통증)",{missed:true,short:"자전거 미실시"}), key:false, status:"partial"},
+    {d:19, morning:mob("모빌리티 · 허리 보완"), lunch:slot("run","트레드밀 러닝 4.5km · 30:00",{km:4.5,done:true,short:"트레드밀 4.5km",timeDetail:"평균심박 152 / 최대 193 · 360kcal · 11:52 시작 · 아식스 노바블라스트6 첫 착용",detail:"B형은 11/18(수)로 이동해 수행 완료 · 가민 활동 25126678854"}), evening:slot("rest","자전거 미실시 (지하철 이용)",{missed:true,short:"자전거 미실시"}), key:false, status:"partial"},
+    {d:20, morning:run(5,"약 40분"), lunch:none(), evening:bike(), key:false, status:"planned"},
+    {d:21, morning:rest("휴식 · 걷기 (저녁 탄수화물 보충)"), lunch:none(), evening:none(), key:false, status:"planned"},
+    {d:22, morning:run(10,"약 1시간 20분",{key:true,short:"10km 3회차"}), lunch:none(), evening:none(), key:true, status:"planned"},
+    {d:23, morning:rest("휴식 (10km 다음날)"), lunch:weight("상체 웨이트 — 슈퍼세트","UPPER_SS"), evening:bike(), key:false, status:"planned"},
+    {d:24, morning:run(5,"약 40분",{short:"야외 LSD 5km",timeDetail:"7′50″~8′30″/km · KS900 · 심박 2~3존"}), lunch:weight("A형 70%","A70"), evening:bike(), key:false, status:"planned"},
+    {d:25, morning:run(5,"약 40분",{short:"야외 LSD 5km",timeDetail:"7′50″~8′30″/km · KS900 · 심박 2~3존"}), lunch:none(), evening:bike(), key:false, status:"planned"},
+    {d:26, morning:mob("모빌리티 · 허리 보완"), lunch:weight("B형","B"), evening:bike(), key:false, status:"planned"},
+    {d:27, morning:mob("모빌리티 10분"), lunch:slot("run","템포런 (트레드밀 4.5km · 30분)",{km:4.5,short:"템포런 4.5km",timeDetail:"가민 워크아웃 기준 · 평균심박 152 목표"}), evening:bike(), key:false, status:"planned"},
+    {d:28, morning:rest("휴식"), lunch:none(), evening:none(), key:false, status:"planned"},
+    {d:29, morning:run(10,"약 1시간 20분",{key:true,short:"★LSD 10km 판단일",timeDetail:"7′50″~8′30″/km · KS900 · 심박 2~3존 · 11/22 3회차 결과 보고 페이스 정함"}), lunch:none(), evening:none(), key:true, status:"planned"},
+    {d:30, morning:run(4,"약 32분",{timeDetail:"아주 가볍게"}), lunch:none(), evening:bike(), key:false, status:"planned"}
+  ];
+  var TODAY=19;
+  var FORM_TEXT={
+    "A":"데드리프트 100kg × 6회 × 3 → 힙쓰러스트 120kg × 12회 × 3 (3세트 모두 끝 10초 버티기) → 스텝업 20kg 덤벨 × 10회 × 3 (각 다리) → 아웃타이 105kg × 12회 × 3 → 백 익스텐션 10kg × 15회 × 3 → 허리 보완 5분 (데드버그 · 버드독).",
+    "A70":"A형 70% 중량. 데드리프트 70kg × 6회 × 3 → 힙쓰러스트 84kg × 12회 × 3 → 스텝업 14kg 덤벨 × 10회 × 3 → 아웃타이 74kg × 12회 × 3 → 백 익스텐션 7kg × 15회 × 3 → 허리 보완 5분.",
+    "B":"① 시티드 레그프레스 125kg × 12회 × 3 & 카프레이즈 125kg × 12회 × 3 → ② 레그 익스텐션 54kg × 12회 × 3 & 레그 컬 54kg × 12회 × 3 → 이너타이 124kg × 12회 × 3 → 플랭크 6분 (정면 40초 · 좌 40초 · 우 40초 × 3세트).",
+    "UPPER_SS":"상체 슈퍼세트 (계획) — ① 페이스풀 10×12×3 & 암풀다운 17.5×12×3 ② 체스트프레스머신 47×12×3 & 체스트 플라이 머신 30×12×3 ③ 어시스트 내로우 친업 몸무게-43.75×12×3 & 케이블 로우로우 50×12×3 ④ 숄더프레스머신 32×12×3 & 사이드 레터럴레이즈머신 15×20×3 · 총 24세트 312회. A형 대신 상체로 변경."
+  };
+
+  /* ---- KPIs computed from the same DAYS array ---- */
+  var runPlan=0, runDone=0, runDaysPlan=0, runDaysDone=0, wPlan=0, wDone=0, bPlan=0, bDone=0;
+  var wKg=0, bKm=0;
+  // Weight totals by date (kg) - from Garmin records and manual calculations
+  var wKgByDay={2:8448, 3:10080, 5:13464, 9:9642, 10:9540, 18:17352};
+  // Bike distances by date (km) - from Garmin records
+  var bKmByDay={9:7.60, 10:6.98, 11:7.63, 13:7.03};
+  DAYS.forEach(function(day){
+    [day.morning,day.lunch,day.evening].forEach(function(s){
+      if(s.kind==="run"){runDaysPlan++; runPlan+=s.km; if(s.done){runDaysDone++; runDone+=s.km;}}
+      if(s.kind==="weight"){wPlan++; if(s.done){wDone++; if(wKgByDay[day.d]){wKg+=wKgByDay[day.d];}}}
+      if(s.kind==="bike"){bPlan++; if(s.done){bDone++; if(bKmByDay[day.d]){bKm+=bKmByDay[day.d];}}}
+    });
+  });
+  function fmt(n){return (Math.round(n*100)/100).toString().replace(/\.0+$/,"");}
+  document.getElementById("kpiRunDone").textContent=fmt(runDone);
+  document.getElementById("kpiRunPlan").textContent=fmt(runPlan);
+  document.getElementById("runBar").style.width=(runPlan? (runDone/runPlan*100):0)+"%";
+  document.getElementById("kpiRunFoot").textContent="계획의 "+Math.round(runDone/runPlan*100)+"% 달성 · 11월 18일 기준";
+  document.getElementById("kpiRunDays").textContent=runDaysDone+" / "+runDaysPlan+"일";
+  document.getElementById("kpiWeight").textContent=wDone+" / "+wPlan+"회";
+  document.getElementById("kpiWeightKg").textContent="총 "+wKg.toLocaleString()+"kg";
+  document.getElementById("kpiBike").textContent=bDone+" / "+bPlan+"회";
+  document.getElementById("kpiBikeKm").textContent="총 "+fmt(bKm)+"km";
+
+  /* ---- Chart (hand-authored SVG from DAYS) ---- */
+  (function chart(){
+    var W=720,H=250,ML=38,MR=10,MT=26,MB=30;
+    var pw=W-ML-MR, ph=H-MT-MB;
+    var maxKm=0; DAYS.forEach(function(d){ if(d.morning.kind==="run"&&d.morning.km>maxKm){maxKm=d.morning.km;} });
+    var yMax=Math.ceil(maxKm);
+    function y(v){return MT+ph-(v/yMax)*ph;}
+    var slotW=pw/DAYS.length, bw=Math.min(18,slotW-7);
+    var ns="http://www.w3.org/2000/svg";
+    var svg=document.createElementNS(ns,"svg");
+    svg.setAttribute("viewBox","0 0 "+W+" "+H); svg.setAttribute("class","chart"); svg.setAttribute("role","presentation");
+    function el(name,attrs,parent){
+      var e=document.createElementNS(ns,name);
+      for(var k in attrs){e.setAttribute(k,attrs[k]);}
+      if(parent){parent.appendChild(e);}
+      return e;
+    }
+    function text(x,yv,str,attrs){
+      var t=el("text",{x:x,y:yv,"font-size":attrs&&attrs.size?attrs.size:10,"fill":attrs&&attrs.fill?attrs.fill:"#5d6c60","text-anchor":attrs&&attrs.anchor?attrs.anchor:"middle","font-weight":attrs&&attrs.bold?"700":"400"},svg);
+      t.textContent=str; return t;
+    }
+    [0,5,10].forEach(function(v){
+      el("line",{x1:ML,x2:W-MR,y1:y(v),y2:y(v),stroke:"#dde3da","stroke-width":1},svg);
+      text(ML-6,y(v)+3,String(v),{anchor:"end",size:10});
+    });
+    el("line",{x1:ML,x2:ML,y1:MT-6,y2:MT+ph,stroke:"#dde3da","stroke-width":1},svg);
+    el("line",{x1:ML,x2:W-MR,y1:MT+ph,y2:MT+ph,stroke:"#dde3da","stroke-width":1},svg);
+    text(ML-6,MT-10,"km",{anchor:"end",size:10});
+    DAYS.forEach(function(day,i){
+      var cx=ML+i*slotW+slotW/2;
+      var s=day.morning;
+      if(s.kind==="run"){
+        var h=(s.km/yMax)*ph;
+        el("rect",{x:cx-bw/2,y:y(s.km),width:bw,height:h,rx:3,fill:s.done?"#0f6b3f":"#9dc7ad"},svg);
+        text(cx,y(s.km)-5,fmt(s.km),{size:9.5,bold:!!s.done,fill:s.done?"#0b5a34":"#5d6c60"});
+      }
+      var isToday=day.d===TODAY;
+      var lbl=text(cx,MT+ph+16,String(day.d),{size:10,bold:isToday||day.key,fill:isToday?"#0f6b3f":(day.key?"#9a6a12":"#5d6c60")});
+      if(day.key){text(cx,MT+ph+27,"★",{size:9,fill:"#9a6a12"});}
+    });
+    document.getElementById("chartWrap").appendChild(svg);
+
+    /* Weekly totals from the same data */
+    var weeks=[{label:"1주 · 1~7일",from:1,to:7},{label:"2주 · 8~14일",from:8,to:14},{label:"3주 · 15~21일",from:15,to:21},{label:"4주 · 22~28일",from:22,to:28},{label:"5주 · 29~30일",from:29,to:30}];
+    var wrap=document.getElementById("weeks");
+    weeks.forEach(function(w){
+      var sum=0,done=0;
+      DAYS.forEach(function(d){
+        if(d.d>=w.from&&d.d<=w.to&&d.morning.kind==="run"){sum+=d.morning.km; if(d.morning.done){done+=d.morning.km;}}
+      });
+      var div=document.createElement("div"); div.className="week";
+      div.innerHTML='<div class="wl"></div><div class="wv"></div><div class="small muted"></div>';
+      div.querySelector(".wl").textContent=w.label;
+      div.querySelector(".wv").innerHTML=fmt(sum)+' <span class="unit">km 계획</span>';
+      div.querySelector(".small").textContent=done>0?("실적 "+fmt(done)+"km"):"실적 없음";
+      wrap.appendChild(div);
+    });
+  })();
+
+  /* ---- Schedule rendering ---- */
+  var state={kind:"all", week:"all", view:"table", selected:TODAY};
+  var dowFor=function(d){ return DOW[(d-1)%7]; }; /* 11/1 = 일요일 */
+  function weekOf(d){ if(d<=7){return "w1";} if(d<=14){return "w2";} if(d<=21){return "w3";} if(d<=28){return "w4";} return "w5"; }
+  function dayMatches(day){
+    if(state.week!=="all"&&weekOf(day.d)!==state.week){return false;}
+    if(state.kind==="all"){return true;}
+    return [day.morning,day.lunch,day.evening].some(function(s){return s.kind===state.kind;});
+  }
+  function statusText(day){
+    if(day.status==="done"){return "완료";}
+    if(day.status==="partial"){return "부분 완료";}
+    return "예정";
+  }
+  function cellHtml(s){
+    if(s.kind==="none"){return '<span class="empty">—</span>';}
+    var cls=s.done?"cell-done":(s.missed?"cell-missed":"");
+    var h='<span class="'+cls+'">'+escapeHtml(s.label)+'</span>';
+    if(s.timeDetail){h+='<div class="detail-note">'+escapeHtml(s.timeDetail)+'</div>';}
+    if(s.detail){h+='<div class="detail-note">'+escapeHtml(s.detail)+'</div>';}
+    return h;
+  }
+  function escapeHtml(str){
+    return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+
+  function renderTable(){
+    var tb=document.getElementById("schedBody");
+    tb.innerHTML="";
+    var shown=0;
+    DAYS.forEach(function(day){
+      if(!dayMatches(day)){return;}
+      shown++;
+      var tr=document.createElement("tr");
+      tr.dataset.date=day.d;
+      if(day.d===TODAY){tr.className+=" today-row";}
+      if(day.d===state.selected){tr.className+=" selected";}
+      var statusCls=day.status==="done"?"done":(day.status==="partial"?"partial":"");
+      var badges="";
+      if(day.d===TODAY){badges+='<span class="badge today">오늘</span>';}
+      if(day.key){badges+='<span class="badge key">★ 10km</span>';}
+      tr.innerHTML=
+        '<td class="date-cell'+(dowFor(day.d)==="일"?" sun":"")+'">11/'+day.d+'<span class="dow">'+dowFor(day.d)+'</span>'+badges+'</td>'+
+        '<td class="'+(day.key?"cell-key":"")+'">'+cellHtml(day.morning)+'</td>'+
+        '<td>'+cellHtml(day.lunch)+'</td>'+
+        '<td>'+cellHtml(day.evening)+'</td>'+
+        '<td><span class="badge '+statusCls+'" style="margin-left:0">'+statusText(day)+'</span></td>';
+      tr.addEventListener("click",function(){selectDay(day.d,true);});
+      tb.appendChild(tr);
+    });
+    document.getElementById("countLine").textContent=shown+"일 표시 중 (11월 전체 30일)";
+  }
+
+  function renderCards(){
+    var wrap=document.getElementById("cardView");
+    wrap.innerHTML="";
+    DAYS.forEach(function(day){
+      if(!dayMatches(day)){return;}
+      var b=document.createElement("button");
+      b.type="button"; b.className="day-card"+(day.d===TODAY?" today-card":"")+(day.d===state.selected?" selected":"");
+      b.dataset.date=day.d;
+      var head='11/'+day.d+' ('+dowFor(day.d)+')'+(day.d===TODAY?' <span class="badge today">오늘</span>':"")+(day.key?' <span class="badge key">★ 10km</span>':"")+' <span class="badge '+(day.status==="done"?"done":day.status==="partial"?"partial":"")+'">'+statusText(day)+'</span>';
+      b.innerHTML='<div class="head">'+head+'</div>'+
+        '<div class="slot-row"><span class="slot-label">아침</span><span>'+cellHtml(day.morning)+'</span></div>'+
+        '<div class="slot-row"><span class="slot-label">점심</span><span>'+cellHtml(day.lunch)+'</span></div>'+
+        '<div class="slot-row"><span class="slot-label">저녁</span><span>'+cellHtml(day.evening)+'</span></div>';
+      b.addEventListener("click",function(){selectDay(day.d,true);});
+      wrap.appendChild(b);
+    });
+  }
+
+  function renderCal(){
+    var grid=document.getElementById("calGrid");
+    grid.innerHTML="";
+    DAYS.forEach(function(day){
+      var b=document.createElement("button");
+      b.type="button";
+      b.className="cal-cell"+(day.d===TODAY?" today-cell":"")+(day.d===state.selected?" selected":"")+(dayMatches(day)?"":" dim");
+      b.dataset.date=day.d;
+      var lines="";
+      [day.morning,day.lunch,day.evening].forEach(function(s){
+        if(s.kind==="none"){return;}
+        var short=s.short||s.label;
+        lines+='<span class="line"><span class="dot '+s.kind+'"></span><span>'+escapeHtml(short)+(s.done?" ✓":"")+'</span></span>';
+      });
+      b.innerHTML='<span class="num'+(dowFor(day.d)==="일"?" sun":"")+'">'+day.d+'<span class="dow-s">'+dowFor(day.d)+'</span></span>'+lines;
+      if(day.status==="done"){b.innerHTML+='<span class="done-mark">달성</span>';}
+      b.addEventListener("click",function(){selectDay(day.d,true);});
+      grid.appendChild(b);
+    });
+  }
+
+  function renderDetail(){
+    var day=DAYS[state.selected-1];
+    var box=document.getElementById("dayDetail");
+    function row(label,s){
+      var extra="";
+      if(s.kind==="run"&&s.timeDetail){extra=' <span class="muted">· '+escapeHtml(s.timeDetail)+'</span>';}
+      var st=s.done?' <span class="badge done" style="margin-left:0">달성</span>':(s.missed?' <span class="badge partial" style="margin-left:0">미실시</span>':"");
+      return '<div class="row"><dt>'+label+'</dt><dd>'+escapeHtml(s.label)+extra+st+'</dd></div>';
+    }
+    var extra="";
+    var wslot=day.lunch.kind==="weight"?day.lunch:null;
+    if(wslot&&wslot.form&&FORM_TEXT[wslot.form]){
+      extra='<div class="extra"><b>'+escapeHtml(wslot.label)+' 구성</b>'+escapeHtml(FORM_TEXT[wslot.form])+'</div>';
+    } else if(wslot&&wslot.detail){
+      extra='<div class="extra"><b>'+escapeHtml(wslot.label)+' — 소화한 무게</b>'+escapeHtml(wslot.detail)+'</div>';
+    }
+    if(day.key){
+      extra+='<div class="extra"><b>목표 지점</b>'+(day.d===8?"10km 2회차 완료 — 1:09:57, 1회차보다 8분 12초 단축. 발목 통증 없음.":day.d===15?"LSD 10km 신기록(PR) — 1:06:03. 이전 최고보다 3분 54초 단축, 평균 심박 21bpm 하락.":day.d===22?"10km 3회차. 불편감 없이 마치면 11월 29일 판단일로.":"판단일. 10km 3회 통과 시 7′30″ 전후, 아니면 7′45″ 반복 또는 8km.")+'</div>';
+    }
+    box.innerHTML='<h3>11월 '+day.d+'일 ('+dowFor(day.d)+')'+(day.d===TODAY?' · 오늘':"")+'</h3><dl>'+row("아침",day.morning)+row("점심",day.lunch)+row("저녁",day.evening)+'</dl>'+extra;
+  }
+
+  function renderAll(){
+    renderTable(); renderCards(); renderCal(); renderDetail();
+  }
+  function selectDay(d,fromClick){
+    state.selected=d;
+    renderTable(); renderCards(); renderCal(); renderDetail();
+    if(fromClick){
+      document.querySelectorAll("[data-date='"+d+"'].selected").forEach(function(el){
+        el.scrollIntoView({block:"nearest",behavior:"smooth"});
+      });
+    }
+  }
+
+  /* Filters */
+  document.getElementById("kindFilters").addEventListener("click",function(e){
+    var btn=e.target.closest("button[data-kind]"); if(!btn){return;}
+    state.kind=btn.dataset.kind;
+    this.querySelectorAll("button").forEach(function(b){b.setAttribute("aria-pressed",String(b===btn));});
+    renderAll();
+  });
+  document.getElementById("weekFilters").addEventListener("click",function(e){
+    var btn=e.target.closest("button[data-week]"); if(!btn){return;}
+    state.week=btn.dataset.week;
+    this.querySelectorAll("button").forEach(function(b){b.setAttribute("aria-pressed",String(b===btn));});
+    renderAll();
+  });
+  var vt=document.getElementById("viewTable"), vc=document.getElementById("viewCal");
+  function setView(v){
+    state.view=v;
+    vt.setAttribute("aria-pressed",String(v==="table"));
+    vc.setAttribute("aria-pressed",String(v==="cal"));
+    document.getElementById("tableView").hidden=v!=="table";
+    document.getElementById("cardView").hidden=v!=="table";
+    document.getElementById("calView").hidden=v!=="cal";
+    if(window.matchMedia("(max-width: 760px)").matches){
+      document.getElementById("tableView").hidden=true;
+    }
+  }
+  vt.addEventListener("click",function(){setView("table");});
+  vc.addEventListener("click",function(){setView("cal");});
+  /* On phones the card list is the table view; keep the toggle working by
+     treating "table" as cards there (CSS hides the table, shows cards). */
+  renderAll();
+  setView("table");
+})();
+</script>
+</body>
+</html>
