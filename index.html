@@ -111,6 +111,7 @@
   .badge.key{background:var(--amber-soft);color:var(--amber);border:1px solid currentColor}
   .badge.done{background:var(--green-soft);color:var(--green-ink)}
   .badge.partial{background:var(--amber-soft);color:var(--amber)}
+  .badge.exceeded{background:#e0e7ff;color:#3730a3;border:1px solid currentColor}
   .cell-key{background:var(--amber-soft)}
   .cell-done{font-weight:650}
   .cell-missed{color:var(--muted)}
@@ -489,12 +490,12 @@
     {d:12, morning:slot("rest","러닝 미실시 (컨디션 저하)",{missed:true,short:"러닝 미실시"}), lunch:slot("run","트레드밀 러닝 5.58km · 40:01",{km:5.58,done:true,short:"트레드밀 5.58km",timeDetail:"평균 7′10″/km · 평균심박 144 / 최대 179 · B형 미실시"}), evening:bike(), key:false, status:"partial"},
     {d:13, morning:slot("rest","인터벌 미실시",{missed:true,short:"인터벌 미실시"}), lunch:slot("weight","B형 — 미확인",{form:"",short:"B형 미확인",detail:"미확인 · 가민 기록 없음"}), evening:slot("bike","자전거 퇴근 7.03km",{done:true,short:"자전거 7.03km",detail:"24:47 · 평균심박 117"}), key:false, status:"partial"},
     {d:14, morning:slot("rest","러닝 — 미확인",{short:"러닝 미확인",detail:"미확인 · 기록 없음"}), lunch:none(), evening:none(), key:false, status:"partial"},
-    {d:15, morning:run(10.02,"1:06:03",{done:true,key:true,short:"★ LSD 10km PR",timeDetail:"평균 6′36″/km · 평균심박 135 / 최대 171 · 814kcal",detail:"★ 신기록(PR) — 이전 최고 1:09:57(11/8)보다 3분 54초 단축 · 평균심박 156→135 (21bpm 하락) · EVO SL + 가슴 심박센서 (연결 간헐적 끊김) · 수면 95점 (8시간 55분) · 바디배터리 99 · HRV BALANCED (기준선 완성) · 달린 후 통증: 우측 무릎 · 양쪽 발 바깥쪽 · 뒤꿈치 (EVO SL 뒤꿈치 고정 안 됨 추정)"}), lunch:none(), evening:none(), key:true, status:"done"},
-    {d:16, morning:run(5.16,"45:33",{done:true,timeDetail:"평균 8′49″/km · 평균심박 127 / 최대 142 · 계획 4km보다 길었으나 저강도 · 걷기 1km 추가 · 통증 해소됨 (사용자 확인)"}), lunch:none(), evening:bike(), key:false, status:"done"},
-    {d:17, morning:mob("모빌리티 10분"), lunch:weight("상체 웨이트 — 슈퍼세트 (계획)","UPPER_SS",{detail:"A형 대신 상체로 변경 · 슈퍼세트 4개 · 총 24세트 312회 (계획)"}), evening:bike(), key:false, status:"planned"},
-    {d:18, morning:run(8.48,"1:14:42",{done:true,timeDetail:"평균 8′48″/km · 평균심박 132 / 최대 147 · 643kcal · 05:26 시작",detail:"2존(116~135) 유지 목적 이지런 · 평균심박 132로 2존 상단 · 계획 5km보다 3.48km 길게 뜀 · 가민 활동 25113443472 · 우측 무릎 앞쪽 통증 발생"}), lunch:weight("B형","B",{done:true,detail:"신규 루틴 첫 시행 · 목요일에서 수요일로 이동 · 무릎 통증 있음에도 수행"}), evening:slot("rest","자전거 미실시 (무릎 통증)",{missed:true,short:"자전거 미실시"}), key:false, status:"partial"},
+    {d:15, morning:run(10.02,"1:06:03",{done:true,key:true,short:"★ LSD 10km PR",timeDetail:"평균 6′36″/km · 평균심박 135 / 최대 171 · 814kcal",detail:"★ 신기록(PR) — 이전 최고 1:09:57(11/8)보다 3분 54초 단축 · 평균심박 156→135 (21bpm 하락) · EVO SL + 가슴 심박센서 (연결 간헐적 끊김) · 수면 95점 (8시간 55분) · 바디배터리 99 · HRV BALANCED (기준선 완성) · 달린 후 통증: 우측 무릎 · 양쪽 발 바깥쪽 · 뒤꿈치 (EVO SL 뒤꿈치 고정 안 됨 추정)"}), lunch:none(), evening:none(), key:true, status:"done", exceeded:true},
+    {d:16, morning:run(5.16,"45:33",{done:true,timeDetail:"평균 8′49″/km · 평균심박 127 / 최대 142 · 계획 4km보다 1.16km 길게 뜀 · 걷기 1km 추가 · 통증 해소됨 (사용자 확인)"}), lunch:none(), evening:bike(), key:false, status:"done", exceeded:true},
+    {d:17, morning:slot("rest","모빌리티 — 미확인",{short:"모빌리티 미확인",detail:"미확인 · 가민 기록 없음"}), lunch:weight("상체 웨이트 — 슈퍼세트","UPPER_SS",{done:true,detail:"A형 대신 상체로 변경 · 슈퍼세트 4개 · 총 24세트 312회 · 34분 · 평균심박 125 · 가민 활동 25104117296"}), evening:slot("rest","자전거 미실시",{missed:true,short:"자전거 미실시"}), key:false, status:"partial"},
+    {d:18, morning:run(8.48,"1:14:42",{done:true,timeDetail:"평균 8′48″/km · 평균심박 132 / 최대 147 · 643kcal · 05:26 시작",detail:"2존(116~135) 유지 목적 이지런 · 평균심박 132로 2존 상단 · 계획 5km보다 3.48km 길게 뜀 · 가민 활동 25113443472 · 우측 무릎 앞쪽 통증 발생"}), lunch:weight("B형","B",{done:true,detail:"신규 루틴 첫 시행 · 목요일에서 수요일로 이동 · 무릎 통증 있음에도 수행"}), evening:slot("rest","자전거 미실시 (무릎 통증)",{missed:true,short:"자전거 미실시"}), key:false, status:"partial", exceeded:true},
     {d:19, morning:mob("모빌리티 · 허리 보완"), lunch:slot("run","트레드밀 러닝 4.5km · 30:00",{km:4.5,done:true,short:"트레드밀 4.5km",timeDetail:"평균심박 152 / 최대 193 · 360kcal · 11:52 시작 · 아식스 노바블라스트6 첫 착용",detail:"B형은 11/18(수)로 이동해 수행 완료 · 가민 활동 25126678854"}), evening:slot("rest","자전거 미실시 (지하철 이용)",{missed:true,short:"자전거 미실시"}), key:false, status:"partial"},
-    {d:20, morning:run(8.77,"1:14:21",{done:true,timeDetail:"평균 8′29″/km · 평균심박 131 / 최대 151 · 667kcal · 05:25 시작",detail:"무릎 통증 해소 확인 · 계획 5km(무릎 테스트)보다 길게 뜀 · 가민 활동 25135470375"}), lunch:weight("웨이트","",{done:true,detail:"39:42 · 평균심박 128 / 최대 172 · 341kcal · 11:52 시작 · 가민 활동 25137307852"}), evening:bike(), key:false, status:"partial"},
+    {d:20, morning:run(8.77,"1:14:21",{done:true,timeDetail:"평균 8′29″/km · 평균심박 131 / 최대 151 · 667kcal · 05:25 시작",detail:"무릎 통증 해소 확인 · 계획 5km(무릎 테스트)보다 3.77km 길게 뜀 · 가민 활동 25135470375"}), lunch:weight("웨이트","",{done:true,detail:"39:42 · 평균심박 128 / 최대 172 · 341kcal · 11:52 시작 · 가민 활동 25137307852"}), evening:bike(), key:false, status:"partial", exceeded:true},
     {d:21, morning:rest("휴식 · 걷기 (저녁 탄수화물 보충)"), lunch:none(), evening:none(), key:false, status:"planned"},
     {d:22, morning:run(10,"약 1시간 20분",{key:true,short:"10km 3회차"}), lunch:none(), evening:none(), key:true, status:"planned"},
     {d:23, morning:rest("휴식 (10km 다음날)"), lunch:weight("상체 웨이트 — 슈퍼세트","UPPER_SS"), evening:bike(), key:false, status:"planned"},
@@ -639,6 +640,7 @@
       var badges="";
       if(day.d===TODAY){badges+='<span class="badge today">오늘</span>';}
       if(day.key){badges+='<span class="badge key">★ 10km</span>';}
+      if(day.exceeded){badges+='<span class="badge exceeded">초과 달성</span>';}
       tr.innerHTML=
         '<td class="date-cell'+(dowFor(day.d)==="일"?" sun":"")+'">11/'+day.d+'<span class="dow">'+dowFor(day.d)+'</span>'+badges+'</td>'+
         '<td class="'+(day.key?"cell-key":"")+'">'+cellHtml(day.morning)+'</td>'+
@@ -659,7 +661,7 @@
       var b=document.createElement("button");
       b.type="button"; b.className="day-card"+(day.d===TODAY?" today-card":"")+(day.d===state.selected?" selected":"");
       b.dataset.date=day.d;
-      var head='11/'+day.d+' ('+dowFor(day.d)+')'+(day.d===TODAY?' <span class="badge today">오늘</span>':"")+(day.key?' <span class="badge key">★ 10km</span>':"")+' <span class="badge '+(day.status==="done"?"done":day.status==="partial"?"partial":"")+'">'+statusText(day)+'</span>';
+      var head='11/'+day.d+' ('+dowFor(day.d)+')'+(day.d===TODAY?' <span class="badge today">오늘</span>':"")+(day.key?' <span class="badge key">★ 10km</span>':"")+(day.exceeded?' <span class="badge exceeded">초과 달성</span>':"")+' <span class="badge '+(day.status==="done"?"done":day.status==="partial"?"partial":"")+'">'+statusText(day)+'</span>';
       b.innerHTML='<div class="head">'+head+'</div>'+
         '<div class="slot-row"><span class="slot-label">아침</span><span>'+cellHtml(day.morning)+'</span></div>'+
         '<div class="slot-row"><span class="slot-label">점심</span><span>'+cellHtml(day.lunch)+'</span></div>'+
