@@ -300,6 +300,7 @@
       <div class="group view-toggle" role="group" aria-label="보기 방식">
         <button type="button" class="chip" id="viewTable" aria-pressed="true">표</button>
         <button type="button" class="chip" id="viewCal" aria-pressed="false">달력</button>
+        <button type="button" class="chip" id="viewWeekly" aria-pressed="false">주간 루틴</button>
       </div>
     </div>
     <p class="count-line" id="countLine"></p>
@@ -316,6 +317,10 @@
     <div id="calView" hidden>
       <div class="cal-head" aria-hidden="true"><div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div></div>
       <div class="cal-grid" id="calGrid"></div>
+    </div>
+
+    <div id="weeklyView" hidden>
+      <div id="weeklyContent"></div>
     </div>
 
     <div class="detail" id="dayDetail" aria-live="polite"></div>
@@ -714,8 +719,48 @@
     box.innerHTML='<h3>11월 '+day.d+'일 ('+dowFor(day.d)+')'+(day.d===TODAY?' · 오늘':"")+'</h3><dl>'+row("아침",day.morning)+row("점심",day.lunch)+row("저녁",day.evening)+'</dl>'+extra;
   }
 
+  function renderWeekly(){
+    var wrap=document.getElementById("weeklyContent");
+    if(!wrap){return;}
+    // Calculate Monday of current week (Nov 1, 2026 is Sunday, DOW[0]=Sunday)
+    // dowIndex: 0=Sun, 1=Mon, ..., 6=Sat
+    var todayDow=(TODAY-1)%7; // 0=Sun
+    var daysSinceMonday=(todayDow+6)%7; // Mon=0, Tue=1, ..., Sun=6
+    var thisMon=TODAY-daysSinceMonday;
+    var nextMon=thisMon+7;
+    function weekHtml(startDay, title){
+      var html='<div class="card" style="margin-bottom:16px"><h3 style="margin:0 0 12px">'+title+'</h3><table class="schedule"><thead><tr><th>날짜</th><th>아침</th><th>점심</th><th>저녁</th><th>상태</th></tr></thead><tbody>';
+      for(var i=0;i<7;i++){
+        var d=startDay+i;
+        var day=DAYS.find(function(x){return x.d===d;});
+        if(!day){
+          html+='<tr><td class="date-cell">11/'+d+'<span class="dow">'+dowFor(d)+'</span></td><td colspan="4" class="muted">11월 범위 밖</td></tr>';
+          continue;
+        }
+        var badges='';
+        if(day.d===TODAY){badges+='<span class="badge today">오늘</span>';}
+        if(day.key){badges+='<span class="badge key">★ 10km</span>';}
+        if(day.exceeded){badges+='<span class="badge exceeded">초과 달성</span>';}
+        var statusCls=day.status==="done"?"done":(day.status==="partial"?"partial":"");
+        html+='<tr'+(day.d===TODAY?' class="today-row"':"")+'>'+
+          '<td class="date-cell'+(dowFor(day.d)==="일"?" sun":"")+'">11/'+day.d+'<span class="dow">'+dowFor(day.d)+'</span>'+badges+'</td>'+
+          '<td>'+cellHtml(day.morning)+'</td>'+
+          '<td>'+cellHtml(day.lunch)+'</td>'+
+          '<td>'+cellHtml(day.evening)+'</td>'+
+          '<td><span class="badge '+statusCls+'" style="margin-left:0">'+statusText(day)+'</span></td></tr>';
+      }
+      html+='</tbody></table></div>';
+      return html;
+    }
+    var thisWeekEnd=Math.min(thisMon+6,30);
+    var nextWeekEnd=Math.min(nextMon+6,30);
+    wrap.innerHTML=
+      weekHtml(thisMon, '이번 주 (11/'+thisMon+' ~ 11/'+thisWeekEnd+')')+
+      weekHtml(nextMon, '다음 주 (11/'+nextMon+' ~ 11/'+nextWeekEnd+')');
+  }
+
   function renderAll(){
-    renderTable(); renderCards(); renderCal(); renderDetail();
+    renderTable(); renderCards(); renderCal(); renderDetail(); renderWeekly();
   }
   function selectDay(d,fromClick){
     state.selected=d;
@@ -740,20 +785,23 @@
     this.querySelectorAll("button").forEach(function(b){b.setAttribute("aria-pressed",String(b===btn));});
     renderAll();
   });
-  var vt=document.getElementById("viewTable"), vc=document.getElementById("viewCal");
+  var vt=document.getElementById("viewTable"), vc=document.getElementById("viewCal"), vw=document.getElementById("viewWeekly");
   function setView(v){
     state.view=v;
     vt.setAttribute("aria-pressed",String(v==="table"));
     vc.setAttribute("aria-pressed",String(v==="cal"));
+    vw.setAttribute("aria-pressed",String(v==="weekly"));
     document.getElementById("tableView").hidden=v!=="table";
     document.getElementById("cardView").hidden=v!=="table";
     document.getElementById("calView").hidden=v!=="cal";
+    document.getElementById("weeklyView").hidden=v!=="weekly";
     if(window.matchMedia("(max-width: 760px)").matches){
       document.getElementById("tableView").hidden=true;
     }
   }
   vt.addEventListener("click",function(){setView("table");});
   vc.addEventListener("click",function(){setView("cal");});
+  vw.addEventListener("click",function(){setView("weekly");});
   /* On phones the card list is the table view; keep the toggle working by
      treating "table" as cards there (CSS hides the table, shows cards). */
   renderAll();
