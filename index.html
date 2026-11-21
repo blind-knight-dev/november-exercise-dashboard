@@ -476,7 +476,7 @@
     return slot("run","러닝 "+km+"km · "+time,o);
   }
   function mob(label){return slot("mobility",label,{short:"모빌리티"});}
-  function rest(label){return slot("rest",label,{short:"휴식·걷기"});}
+  function rest(label,opts){var o={short:"휴식·걷기"}; if(opts){for(var k in opts){o[k]=opts[k];}} return slot("rest",label,o);}
   function weight(label,form,opts){
     var o={form:form,short:label};
     if(opts){for(var k in opts){o[k]=opts[k];}}
