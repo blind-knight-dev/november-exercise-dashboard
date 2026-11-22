@@ -554,7 +554,12 @@
   (function chart(){
     var W=720,H=250,ML=38,MR=10,MT=26,MB=30;
     var pw=W-ML-MR, ph=H-MT-MB;
-    var maxKm=0; DAYS.forEach(function(d){ if(d.morning.kind==="run"&&d.morning.km>maxKm){maxKm=d.morning.km;} });
+    function runSlot(day){
+      var c=[day.morning,day.lunch,day.evening];
+      for(var i=0;i<c.length;i++){ if(c[i]&&c[i].kind==="run"&&c[i].km){return c[i];} }
+      return null;
+    }
+    var maxKm=0; DAYS.forEach(function(d){ var r=runSlot(d); if(r&&r.km>maxKm){maxKm=r.km;} });
     var yMax=Math.ceil(maxKm);
     function y(v){return MT+ph-(v/yMax)*ph;}
     var slotW=pw/DAYS.length, bw=Math.min(18,slotW-7);
@@ -580,8 +585,8 @@
     text(ML-6,MT-10,"km",{anchor:"end",size:10});
     DAYS.forEach(function(day,i){
       var cx=ML+i*slotW+slotW/2;
-      var s=day.morning;
-      if(s.kind==="run"){
+      var s=runSlot(day);
+      if(s){
         var h=(s.km/yMax)*ph;
         el("rect",{x:cx-bw/2,y:y(s.km),width:bw,height:h,rx:3,fill:s.done?"#0f6b3f":"#9dc7ad"},svg);
         text(cx,y(s.km)-5,fmt(s.km),{size:9.5,bold:!!s.done,fill:s.done?"#0b5a34":"#5d6c60"});
@@ -598,7 +603,10 @@
     weeks.forEach(function(w){
       var sum=0,done=0;
       DAYS.forEach(function(d){
-        if(d.d>=w.from&&d.d<=w.to&&d.morning.kind==="run"){sum+=d.morning.km; if(d.morning.done){done+=d.morning.km;}}
+        if(d.d<w.from||d.d>w.to){return;}
+        [d.morning,d.lunch,d.evening].forEach(function(s2){
+          if(s2&&s2.kind==="run"){sum+=s2.km; if(s2.done){done+=s2.km;}} 
+        });
       });
       var div=document.createElement("div"); div.className="week";
       div.innerHTML='<div class="wl"></div><div class="wv"></div><div class="small muted"></div>';
