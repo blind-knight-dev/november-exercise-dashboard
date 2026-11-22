@@ -488,7 +488,7 @@
   var DAYS=[
     {d:1, morning:run(11.75,"1시간 35분 44초",{done:true,timeDetail:"평균 8′09″/km · 평균 심박 151"}), lunch:none(), evening:none(), key:false, status:"done"},
     {d:2, morning:slot("rest","러닝 미실시 (바디 배터리 46)",{missed:true,short:"러닝 미실시"}), lunch:weight("상체 웨이트","upper",{done:true,detail:"체스트프레스 61kg 12회 → 61kg 6회 → 47kg 12회 × 2 · 풀다운 54kg 12회 × 3 · 숄더프레스 39kg 12회 → 32kg 12회 × 2 · 레터럴레이즈 15kg 20회 × 3 · 케이블 로우 42.5kg 12회 → 50kg 12회 × 2 · 암풀다운 12kg 12회 × 3 · 총 19세트 246회 8,448kg"}), evening:bikeMissed(), key:false, status:"partial"},
-    {d:3, morning:mob("모빌리티 10분"), lunch:weight("A형","",{done:true,detail:"데드리프트 100×6×3 · 힙쓰러스트 120×12×3 · 힙어브덕션 110×12×3 · 총 9세트 90회 10,080kg · 트레드밀 10분 포함 40분 · 허리 보완 미실시"}), evening:slot("bike","자전거 퇴근",{missed:true,short:"자전거 미실시",detail:"오후 사이클링 2회 5.58km만 · 퇴근 기록 없음"}), key:false, status:"partial"},
+    {d:3, morning:mob("모빌리티 10분"), lunch:weight("A형","",{done:true,detail:"데드리프트 100×6×3 · 힙쓰러스트 120×12×3 · 힙어브덕션 110×12×3 · 총 9세트 90회 10,080kg · 트레드밀 10분 포함 40분 · 허리 보완 미실시"}), evening:slot("bike","자전거 퇴근 — 미실시",{missed:true,short:"자전거 미실시",detail:"오후 사이클링 2회 5.58km만 · 퇴근 기록 없음"}), key:false, status:"partial"},
     {d:4, morning:run(4.82,"34:49",{done:true,timeDetail:"평균 7′13″/km · 평균심박 150 / 최대 178 · 트랙 · EVO SL"}), lunch:none(), evening:slot("bike","자전거 퇴근 6.31km",{done:true,short:"자전거 6.31km",detail:"23:07 · 평균 16.4km/h · 평균심박 115 / 최대 131"}), key:false, status:"done"},
     {d:5, morning:mob("모빌리티 · 허리 보완"), lunch:weight("B형","",{done:true,detail:"레그프레스 125×12×3 · 카프레이즈 125×12×3 · 이너타이 124×12×3 · 플랭크 5분 · 총 20세트 108회 13,464kg · 우측 내측 복숭아뼈 뒤 불편감 (후경골근 의심) — 다음 B형에서 발 11자로 교정"}), evening:slot("bike","자전거 퇴근 7.62km",{done:true,short:"자전거 7.62km",detail:"30:46 · 평균 14.9km/h · 평균심박 110 / 최대 137"}), key:false, status:"done"},
     {d:6, morning:run(5.23,"47:28",{done:true,timeDetail:"평균 9′05″/km · 평균심박 128 / 최대 144 · 느리게 · 발목 통증 없음"}), lunch:none(), evening:slot("bike","자전거 미실시",{missed:true,short:"자전거 미실시"}), key:false, status:"partial"},
@@ -522,7 +522,7 @@
     "A":"데드리프트 100kg × 6회 × 3 → 힙쓰러스트 120kg × 12회 × 3 (3세트 모두 끝 10초 버티기) → 스텝업 20kg 덤벨 × 20회 × 3 (두 다리 점프) → 힙어브덕션 110kg × 12회 × 3 → 백 익스텐션 10kg × 15회 × 3 → 허리 보완 5분 (데드버그 · 버드독).",
     "A70":"A형 70% 중량. 데드리프트 70kg × 6회 × 3 → 힙쓰러스트 84kg × 12회 × 3 → 스텝업 14kg 덤벨 × 20회 × 3 → 힙어브덕션 77kg × 12회 × 3 → 백 익스텐션 7kg × 15회 × 3 → 허리 보완 5분.",
     "B":"① 시티드 레그프레스 125kg × 12회 × 3 & 카프레이즈 125kg × 12회 × 3 → ② 레그 익스텐션 54kg × 12회 × 3 & 레그 컬 54kg × 12회 × 3 → 이너타이 124kg × 12회 × 3 → 플랭크 6분 (정면 40초 · 좌 40초 · 우 40초 × 3세트).",
-    "UPPER_SS":"상체 슈퍼세트 (계획) — ① 페이스풀 10×12×3 & 암풀다운 17.5×12×3 ② 체스트프레스머신 47×12×3 & 체스트 플라이 머신 30×12×3 ③ 어시스트 내로우 친업 몸무게-43.75×12×3 & 케이블 로우로우 50×12×3 ④ 숄더프레스머신 32×12×3 & 사이드 레터럴레이즈머신 15×20×3 · 총 24세트 312회. A형 대신 상체로 변경."
+    "UPPER_SS":"상체 슈퍼세트 (계획) — ① 페이스풀 10×12×3 & 암풀다운 17.5×12×3 ② 체스트프레스머신 47×12×3 & 체스트 플라이 머신 30×12×3 ③ 어시스트 내로우 친업 몸무게-43.75×12×3 & 케이블 로우로우 50×12×3 ④ 숄더프레스머신 32×12×3 & 사이드 레터럴레이즈머신 15×20×3 · 총 24세트 312회."
   };
 
   /* ---- KPIs computed from the same DAYS array ---- */
@@ -725,7 +725,7 @@
     if(wslot&&wslot.done&&wslot.detail){
       extra='<div class="extra"><b>'+escapeHtml(wslot.label)+' — 실제 수행</b>'+escapeHtml(wslot.detail)+'</div>';
     } else if(wslot&&wslot.form&&FORM_TEXT[wslot.form]){
-      extra='<div class="extra"><b>'+escapeHtml(wslot.label)+' 구성</b>'+escapeHtml(FORM_TEXT[wslot.form])+(wslot.detail?'<br><span class="muted">'+escapeHtml(wslot.detail)+'</span>':"")+'</div>';
+      extra='<div class="extra"><b>'+escapeHtml(wslot.label)+' 구성</b>'+escapeHtml(FORM_TEXT[wslot.form])+(wslot.detail?'<div class="small muted" style="margin-top:6px">'+escapeHtml(wslot.detail)+'</div>':'')+'</div>';
     } else if(wslot&&wslot.detail){
       extra='<div class="extra"><b>'+escapeHtml(wslot.label)+' — 소화한 무게</b>'+escapeHtml(wslot.detail)+'</div>';
     }
