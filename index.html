@@ -51,6 +51,17 @@
   .kpi .num .unit{font-size:14px;font-weight:700;color:var(--muted);margin-left:2px}
   .kpi .num .plan-part{color:var(--muted);font-size:16px;font-weight:700;white-space:nowrap}
   .kpi .foot{font-size:13px;color:var(--muted);margin-top:2px}
+  .kpi .per{display:block;font-size:12px;color:var(--muted);font-weight:600;margin-top:1px}
+  .kpis.act-kpis{margin-top:12px}
+  .kpis.act-kpis .num{font-size:23px}
+  .act-cell{white-space:nowrap;font-variant-numeric:tabular-nums;font-size:13.5px;line-height:1.5}
+  .act-cell .s{font-weight:750}
+  .act-cell .f{color:var(--muted)}
+  .act-cell .na{color:var(--muted)}
+  .act-cell .u{font-size:12px;color:var(--muted);font-weight:600}
+  .act-line{display:flex;gap:10px;flex-wrap:wrap;align-items:baseline;font-variant-numeric:tabular-nums}
+  .act-line .s{font-weight:750}
+  .act-line .f{color:var(--muted)}
   .bar{height:8px;border-radius:99px;background:var(--surface2);border:1px solid var(--line);overflow:hidden;margin-top:10px}
   .bar i{display:block;height:100%;background:var(--green);border-radius:99px}
 
@@ -233,6 +244,30 @@
     </div>
   </div>
 
+  <!-- 걸음 · 층 KPI -->
+  <div class="kpis act-kpis" aria-label="걸음 수·오른 층 한 달 / 일주일">
+    <div class="kpi">
+      <div class="label">걸음 수 · 한 달<span class="per">11/1~22 (22일)</span></div>
+      <div class="num"><span id="kpiStepsMonth">–</span><span class="unit">보</span></div>
+      <div class="foot" id="kpiStepsMonthFoot">일평균 –</div>
+    </div>
+    <div class="kpi">
+      <div class="label">걸음 수 · 일주일<span class="per">11/16~22 (최근 7일)</span></div>
+      <div class="num"><span id="kpiStepsWeek">–</span><span class="unit">보</span></div>
+      <div class="foot" id="kpiStepsWeekFoot">일평균 –</div>
+    </div>
+    <div class="kpi">
+      <div class="label">오른 층 · 한 달<span class="per">11/1~22 (22일)</span></div>
+      <div class="num"><span id="kpiFloorsMonth">–</span><span class="unit">층</span></div>
+      <div class="foot" id="kpiFloorsMonthFoot">일평균 –</div>
+    </div>
+    <div class="kpi">
+      <div class="label">오른 층 · 일주일<span class="per">11/16~22 (최근 7일)</span></div>
+      <div class="num"><span id="kpiFloorsWeek">–</span><span class="unit">층</span></div>
+      <div class="foot" id="kpiFloorsWeekFoot">일평균 –</div>
+    </div>
+  </div>
+
   <!-- Achievement green box -->
   <section aria-labelledby="achieveH">
     <div class="achieve">
@@ -279,7 +314,7 @@
   <section aria-labelledby="schedH">
     <div class="section-head">
       <h2 id="schedH">11월 일정표</h2>
-      <span class="note">날짜를 누르면 아래에 상세가 뜹니다 · ★는 10km·판단일 · 주간 루틴은 월~일 기준</span>
+      <span class="note">날짜를 누르면 아래에 상세가 뜹니다 · ★는 10km·판단일 · 주간 루틴은 월~일 기준 · 활동량은 가민 걸음 수·오른 층</span>
     </div>
 
     <div class="toolbar" role="group" aria-label="일정 보기 조절">
@@ -310,7 +345,7 @@
 
     <div class="card schedule-wrap" id="tableView" style="padding:6px 10px 10px">
       <table class="schedule">
-        <thead><tr><th scope="col">날짜</th><th scope="col">아침</th><th scope="col">점심</th><th scope="col">저녁</th><th scope="col">상태</th></tr></thead>
+        <thead><tr><th scope="col">날짜</th><th scope="col">아침</th><th scope="col">점심</th><th scope="col">저녁</th><th scope="col">활동량</th><th scope="col">상태</th></tr></thead>
         <tbody id="schedBody"></tbody>
       </table>
     </div>
@@ -457,7 +492,7 @@
     </div>
   </section>
 
-  <footer>계획 거리는 추정치, 달성 기록은 실측. 가민 커넥트 기준 11월 22일 18:07까지 실적 반영(11/22 보행 0.32km · 러닝 16.39km · 사이클링 6.08km), 11월 23일 이후 일정은 계획이다.</footer>
+  <footer>계획 거리는 추정치, 달성 기록은 실측. 가민 커넥트 기준 11월 22일 18:07까지 실적 반영(11/22 보행 0.32km · 러닝 16.39km · 사이클링 6.08km), 11월 23일 이후 일정은 계획이다.<br>걸음 수·오른 층은 11월 23일 08:50 가민 커넥트 조회값(일별 합계)으로, 한 달·일주일 수치는 11/1~22와 11/16~22 실측 합계·일평균이다. 11/23은 워치 미동기화 상태(오전 08:50 기준 56보)라 집계에서 뺐다.</footer>
 </main>
 
 <script>
@@ -549,6 +584,32 @@
   document.getElementById("kpiWeightKg").textContent="총 "+wKg.toLocaleString()+"kg";
   document.getElementById("kpiBike").textContent=bDone+" / "+bPlan+"회";
   document.getElementById("kpiBikeKm").textContent="총 "+fmt(bKm)+"km";
+
+  /* ---- 걸음 수 · 오른 층 KPI (한 달 11/1~22, 일주일 11/16~22) ---- */
+  function actKpis(){
+    var mS=0,mF=0,mDays=0,wS=0,wF=0,wDays=0;
+    for(var d=1;d<=TODAY;d++){
+      var a=ACT[d];
+      if(!a){continue;}
+      if(a.s!=null){mS+=a.s;}
+      if(a.f!=null){mF+=a.f;}
+      mDays++;
+      if(d>=TODAY-6){
+        if(a.s!=null){wS+=a.s;}
+        if(a.f!=null){wF+=a.f;}
+        wDays++;
+      }
+    }
+    function n(x){return x.toLocaleString();}
+    document.getElementById("kpiStepsMonth").textContent=n(mS);
+    document.getElementById("kpiStepsMonthFoot").textContent="일평균 "+n(Math.round(mS/mDays))+"보 · "+mDays+"일 합계";
+    document.getElementById("kpiStepsWeek").textContent=n(wS);
+    document.getElementById("kpiStepsWeekFoot").textContent="일평균 "+n(Math.round(wS/wDays))+"보 · "+wDays+"일 합계";
+    document.getElementById("kpiFloorsMonth").textContent=n(mF);
+    document.getElementById("kpiFloorsMonthFoot").textContent="일평균 "+(Math.round(mF/mDays*10)/10)+"층 · "+mDays+"일 합계";
+    document.getElementById("kpiFloorsWeek").textContent=n(wF);
+    document.getElementById("kpiFloorsWeekFoot").textContent="일평균 "+(Math.round(wF/wDays*10)/10)+"층 · "+wDays+"일 합계";
+  }
 
   /* ---- Chart (hand-authored SVG from DAYS) ---- */
   (function chart(){
@@ -643,6 +704,63 @@
     return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
   }
 
+  /* 걸음 수 · 오른 층 — 가민 커넥트 실측값 (2026-11-23 08:50경 조회)
+     s: 걸음 수, f: 오른 층, dn: 내려간 층, note: 비고 */
+  var ACT={
+    1:{s:26222,f:14,dn:15},
+    2:{s:10092,f:12,dn:18},
+    3:{s:14694,f:10,dn:4},
+    4:{s:19050,f:10,dn:9},
+    5:{s:8028,f:6,dn:5},
+    6:{s:20839,f:12,dn:23},
+    7:{s:17129,f:43,dn:40},
+    8:{s:21540,f:13,dn:11},
+    9:{s:8446,f:5,dn:4},
+    10:{s:20001,f:13,dn:16},
+    11:{s:11207,f:12,dn:10},
+    12:{s:16227,f:12,dn:14},
+    13:{s:9031,f:8,dn:6},
+    14:{s:9675,f:2,dn:5},
+    15:{s:18057,f:8,dn:10},
+    16:{s:27296,f:22,dn:27},
+    17:{s:9786,f:26,dn:13},
+    18:{s:24805,f:28,dn:16},
+    19:{s:15265,f:29,dn:15},
+    20:{s:22411,f:30,dn:15},
+    21:{s:7156,f:11,dn:11},
+    22:{s:29580,f:15,dn:13},
+    23:{s:null,f:0,dn:0,note:"오늘 · 워치 미동기화"}
+  };
+  function actText(d){
+    var a=ACT[d];
+    if(!a){return null;}
+    var s=(a.s==null?"걸음 —":a.s.toLocaleString()+"보");
+    var f=(a.f==null?"오른 층 —":"오른 층 "+a.f+"층");
+    return s+" · "+f;
+  }
+  function actRow(d){
+    var a=ACT[d];
+    if(!a){return '<div class="row"><dt>활동량</dt><dd class="muted">가민 기록 없음</dd></div>';}
+    var parts=[];
+    parts.push(a.s==null?'걸음 —':a.s.toLocaleString()+'보');
+    parts.push(a.f==null?'오른 층 —':'오른 층 '+a.f+'층');
+    if(a.dn!=null){parts.push('내려간 층 '+a.dn+'층');}
+    if(a.note){parts.push(a.note);}
+    return '<div class="row"><dt>활동량</dt><dd>'+escapeHtml(parts.join(' · '))+'</dd></div>';
+  }
+  function actHtml(d){
+    var a=ACT[d];
+    if(!a){return '<span class="act-cell"><span class="na">—</span></span>';}
+    var h='<span class="act-cell">';
+    h+=(a.s==null?'<span class="na">걸음 —</span>':'<span class="s">'+a.s.toLocaleString()+'</span><span class="u">보</span>');
+    h+=' <span class="f">·</span> ';
+    h+=(a.f==null?'<span class="na">층 —</span>':'<span class="s">'+a.f+'</span><span class="u">층</span>');
+    if(a.note){h+=' <span class="u">'+escapeHtml(a.note)+'</span>';}
+    h+='</span>';
+    return h;
+  }
+  actKpis();
+
   function renderTable(){
     var tb=document.getElementById("schedBody");
     tb.innerHTML="";
@@ -664,6 +782,7 @@
         '<td class="'+(day.key?"cell-key":"")+'">'+cellHtml(day.morning)+'</td>'+
         '<td>'+cellHtml(day.lunch)+'</td>'+
         '<td>'+cellHtml(day.evening)+'</td>'+
+        '<td>'+actHtml(day.d)+'</td>'+
         '<td><span class="badge '+statusCls+'" style="margin-left:0">'+statusText(day)+'</span></td>';
       tr.addEventListener("click",function(){selectDay(day.d,true);});
       tb.appendChild(tr);
@@ -683,7 +802,8 @@
       b.innerHTML='<div class="head">'+head+'</div>'+
         '<div class="slot-row"><span class="slot-label">아침</span><span>'+cellHtml(day.morning)+'</span></div>'+
         '<div class="slot-row"><span class="slot-label">점심</span><span>'+cellHtml(day.lunch)+'</span></div>'+
-        '<div class="slot-row"><span class="slot-label">저녁</span><span>'+cellHtml(day.evening)+'</span></div>';
+        '<div class="slot-row"><span class="slot-label">저녁</span><span>'+cellHtml(day.evening)+'</span></div>'+
+        '<div class="slot-row"><span class="slot-label">활동량</span><span class="act-line">'+actHtml(day.d)+'</span></div>';
       b.addEventListener("click",function(){selectDay(day.d,true);});
       wrap.appendChild(b);
     });
@@ -732,7 +852,7 @@
     if(day.key){
       extra+='<div class="extra"><b>목표 지점</b>'+(day.d===8?"10km 2회차 완료 — 1:09:57, 1회차보다 8분 12초 단축. 발목 통증 없음.":day.d===15?"LSD 10km 신기록(PR) — 1:06:03. 이전 최고보다 3분 54초 단축, 평균 심박 21bpm 하락.":day.d===22?"10km 3회차 완료 — 16.39km, 2:03:57. 계획 10km를 6.39km 넘겨 최장 러닝 신기록. 완주 후 우측 무릎 다시 안 좋아짐 — 11/23 경과 보고 후 11월 29일 판단일 페이스 정함.":"판단일. 10km 3회 통과 시 7′30″ 전후, 아니면 7′45″ 반복 또는 8km.")+'</div>';
     }
-    box.innerHTML='<h3>11월 '+day.d+'일 ('+dowFor(day.d)+')'+(day.d===TODAY?' · 오늘':"")+'</h3><dl>'+row("아침",day.morning)+row("점심",day.lunch)+row("저녁",day.evening)+'</dl>'+extra;
+    box.innerHTML='<h3>11월 '+day.d+'일 ('+dowFor(day.d)+')'+(day.d===TODAY?' · 오늘':"")+'</h3><dl>'+row("아침",day.morning)+row("점심",day.lunch)+row("저녁",day.evening)+actRow(day.d)+'</dl>'+extra;
   }
 
   function renderWeekly(){
@@ -757,6 +877,7 @@
         '<td>'+cellHtml(day.morning)+'</td>'+
         '<td>'+cellHtml(day.lunch)+'</td>'+
         '<td>'+cellHtml(day.evening)+'</td>'+
+        '<td>'+actHtml(day.d)+'</td>'+
         '<td><span class="badge '+statusCls+'" style="margin-left:0">'+statusText(day)+'</span></td></tr>';
     }
     function weekHtml(startDay,endDay,title){
@@ -766,9 +887,9 @@
         if(!day||!dayMatches(day)){continue;}
         rows+=rowHtml(day); shown++;
       }
-      if(!shown){rows='<tr><td colspan="5" class="muted">이 주에는 선택한 종류의 일정이 없습니다</td></tr>';}
+      if(!shown){rows='<tr><td colspan="6" class="muted">이 주에는 선택한 종류의 일정이 없습니다</td></tr>';}
       return '<div class="card" style="margin-bottom:16px"><h3 style="margin:0 0 10px">'+title+'</h3>'+
-        '<table class="schedule"><thead><tr><th>날짜</th><th>아침</th><th>점심</th><th>저녁</th><th>상태</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+        '<table class="schedule"><thead><tr><th>날짜</th><th>아침</th><th>점심</th><th>저녁</th><th>활동량</th><th>상태</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
     }
     function rangeTitle(name,from,to){
       var head=name+' · 11/'+from+'('+dowFor(from)+')';
