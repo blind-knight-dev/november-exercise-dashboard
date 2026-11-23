@@ -1198,8 +1198,8 @@
     if(opts){for(var k in opts){o[k]=opts[k];}}
     return slot("rest",label,o);
   }
-  function skip(label){
-    return slot("rest",label,{missed:true,short:"스킵"});
+  function skip(label,short){
+    return slot("rest",label,{missed:true,short:short||"스킵"});
   }
 
   /* 가민 일별 요약값 (2026-11-23 10:00 조회) — s: 걸음 수, f: 오른 층, dn: 내려간 층 */
@@ -1228,18 +1228,18 @@
   D(6).status="done";
 
   D(7).morning=moveRec("걷기 · 발목 강화");
-  D(7).evening=skip("자전거 안 탐");
+  D(7).evening=skip("자전거 안 탐","자전거 스킵");
   D(7).status="partial";
 
-  D(8).morning=skip("러닝 스킵 — 아킬레스·햄스트링");
-  D(8).evening=skip("자전거 안 탐");
+  D(8).morning=skip("러닝 스킵 — 아킬레스·햄스트링","러닝 스킵");
+  D(8).evening=skip("자전거 안 탐","자전거 스킵");
   D(8).status="partial";
 
   D(10).morning=runRec(6.01,"6′39″/km",{timeDetail:"심박 133"});
   D(10).status="done";
 
   D(12).morning=runRec(6.28,"",{lab:"러닝 약 6.28km",timeDetail:"5.70km + 0.58km 두 기록"});
-  D(12).lunch=skip("웨이트 안 함");
+  D(12).lunch=skip("웨이트 안 함","웨이트 스킵");
   D(12).evening=bikeRec("퇴근 7.35km");
   D(12).status="partial";
 
@@ -1260,7 +1260,7 @@
   D(18).morning=runRec(7.01,"8′04″/km",{timeDetail:"심박 142"});
   D(18).status="done";
 
-  D(19).morning=runRec(5.00,"8′23″/km",{lab:"러닝 5.00km · 8′23″/km",timeDetail:"심박 141"});
+  D(19).morning=runRec(5.00,"8′23″/km",{lab:"러닝 5.00km · 8′23″/km",short:"러닝 5.00km",timeDetail:"심박 141"});
   D(19).status="done";
 
   D(20).lunch=gymRec("웨이트 (트레드밀 20분)",{timeDetail:"레그프레스 115kg 12×3 · 카프레이즈 · 아웃타이 105kg 12×3 · 불가리안 스쿼트 10kg 8×1"});
@@ -1284,7 +1284,7 @@
   D(28).evening=bikeRec("출근 10.02km",{garmin:true,detail:"가민 1:08:26 · 평균 8.8km/h · 심박 119 / 최대 151 · 08:01 출발 · 퇴근은 안 탐"});
   D(28).status="partial";
 
-  D(30).morning=skip("러닝 스킵 — 가정 사정");
+  D(30).morning=skip("러닝 스킵 — 가정 사정","러닝 스킵");
   D(30).lunch=gymRec("웨이트 (트레드밀 10분)",{timeDetail:"데드리프트 100kg 5×3 · 힙쓰러스트 120kg 10×2 · 이너타이 110kg 12×3 · 어브덕션 103kg 12×3",detail:"트레드밀 0.64km는 가민 실측 9:59 · 평균 15′37″/km · 심박 126 — 같은 웨이트 세션"});
   D(30).evening=bikeRec("퇴근 7.63km (19.0km/h)",{garmin:true,detail:"가민 24:09 · 평균 19.0km/h · 심박 132 / 최대 153 · 17:34 출발"});
   D(30).status="partial";
