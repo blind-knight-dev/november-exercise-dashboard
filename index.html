@@ -1233,9 +1233,9 @@
   function cellHtml(s){
     if(s.kind==="none"){return '<span class="empty">—</span>';}
     var h='<span class="'+(s.ext?"cell-ext":(s.garmin?"cell-done":"")) +'">'+esc(s.label)+'</span>';
-    if(s.ext){h+='<span class="ext-tag">가민 외</span>';}
     if(s.timeDetail){h+='<div class="detail-note">'+esc(s.timeDetail)+'</div>';}
     if(s.detail){h+='<div class="detail-note">'+esc(s.detail)+'</div>';}
+    if(s.ext){h+='<span class="ext-tag">가민 외</span>';}
     return h;
   }
   function actHtml(d){
@@ -1485,8 +1485,14 @@
       var div=document.createElement("div"); div.className="week";
       div.innerHTML='<div class="wl"></div><div class="wv"></div><div class="small muted"></div>';
       div.querySelector(".wl").textContent=w.label;
-      div.querySelector(".wv").innerHTML=(gs?fmt(gs):"0")+' <span class="unit">km 가민</span>';
-      div.querySelector(".small").textContent=(es?("가민 외 "+fmt(es)+"km"):"가민 외 기록 없음");
+      var tot=gs+es;
+      if(!tot){
+        div.querySelector(".wv").innerHTML='<span class="unit">기록 없음</span>';
+        div.querySelector(".small").textContent="가민·폰 GPS 러닝 없음";
+      }else{
+        div.querySelector(".wv").innerHTML=fmt(tot)+' <span class="unit">km 실측</span>';
+        div.querySelector(".small").textContent="가민 "+fmt(gs)+"km · 가민 외 "+fmt(es)+"km";
+      }
       wrap.appendChild(div);
     });
   })();
