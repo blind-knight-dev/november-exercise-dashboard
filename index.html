@@ -199,6 +199,18 @@
     .view-toggle{margin-left:0}
     .toolbar .sep{display:none}
   }
+  /* Month tabs */
+  .month-tabs{display:inline-flex;gap:4px;padding:4px;background:var(--surface2);border:1px solid var(--line);border-radius:99px;margin-bottom:20px}
+  .month-tab{appearance:none;border:0;background:transparent;color:var(--muted);font:inherit;font-weight:750;font-size:14px;padding:7px 16px;border-radius:99px;cursor:pointer}
+  .month-tab:hover{color:var(--ink)}
+  .month-tab[aria-pressed="true"]{background:var(--green);color:#fff}
+  @media (prefers-color-scheme: dark){.month-tab[aria-pressed="true"]{color:#0d130f}}
+  .month-panel[hidden]{display:none!important}
+  .ext-tag{display:inline-block;font-size:11px;font-weight:800;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:1px 7px;margin-left:5px;vertical-align:1px;white-space:nowrap}
+  .badge.ext{background:var(--surface2);color:var(--muted);border:1px solid var(--line)}
+  .badge.none{background:transparent;color:var(--muted);border:1px dashed var(--line)}
+  .cell-ext{color:var(--muted)}
+
   @media print{
     body{background:#fff}
     .toolbar,.view-toggle{display:none!important}
@@ -213,6 +225,13 @@
 </head>
 <body>
 <main class="wrap">
+
+  <div class="month-tabs" role="group" aria-label="월 선택">
+    <button type="button" class="month-tab" id="tabMonth11" data-month="11" aria-pressed="true">2026년 11월</button>
+    <button type="button" class="month-tab" id="tabMonth10" data-month="10" aria-pressed="false">2026년 10월</button>
+  </div>
+
+  <div id="month-11" class="month-panel">
 
   <header>
     <h1>2026년 11월 운동 계획</h1>
@@ -493,6 +512,192 @@
   </section>
 
   <footer>계획 거리는 추정치, 달성 기록은 실측. 가민 커넥트 기준 11월 22일 18:07까지 실적 반영(11/22 보행 0.32km · 러닝 16.39km · 사이클링 6.08km), 11월 23일 이후 일정은 계획이다.<br>걸음 수·오른 층은 11월 23일 09:20 가민 커넥트 조회값(일별 합계)으로, 한 달·일주일 수치는 11/1~22와 11/16~22 실측 합계·일평균이다. 11/23은 워치 미동기화 상태(오전 08:50 기준 56보)라 집계에서 뺐다.</footer>
+
+  </div><!-- /#month-11 -->
+
+  <!-- ===== 2026년 10월 탭 ===== -->
+  <div id="month-10" class="month-panel" hidden>
+
+  <header>
+    <h1>2026년 10월 운동 기록</h1>
+    <p class="sub">가민 커넥트 실측 · 워치 첫 동기화 <b>10월 27일 12:15</b> · 그 이전(10/1~10/26)은 가민 기록 없음 · 조회 2026년 11월 23일 10:10 (가민 커넥트 동기화)</p>
+  </header>
+
+  <!-- KPI -->
+  <div class="kpis" aria-label="10월 요약">
+    <div class="kpi">
+      <div class="label">러닝 거리 · 가민 실측</div>
+      <div class="num">5.71<span class="unit">km</span></div>
+      <div class="foot">가민 2회 (10/28 5.07 · 10/30 트레드밀 0.64) · 폰 GPS 4회 27.55km는 별도</div>
+    </div>
+    <div class="kpi">
+      <div class="label">러닝 횟수</div>
+      <div class="num">2<span class="unit">회</span></div>
+      <div class="foot">가민 기록 기준 · 10/27 이전은 가민 기록 없음</div>
+    </div>
+    <div class="kpi">
+      <div class="label">웨이트</div>
+      <div class="num">0<span class="unit">회</span></div>
+      <div class="foot">가민 기록 없음 · 10/6은 본인 기록만 (가민 외)</div>
+    </div>
+    <div class="kpi">
+      <div class="label">자전거</div>
+      <div class="num">2<span class="unit">회</span></div>
+      <div class="foot">총 17.65km · 가민 2회 (10/28 · 10/30)</div>
+    </div>
+  </div>
+
+  <!-- 걸음 · 층 KPI -->
+  <div class="kpis act-kpis" aria-label="10월 걸음 수·오른 층">
+    <div class="kpi">
+      <div class="label">걸음 수 · 한 달<span class="per">10/27~31 (5일 측정)</span></div>
+      <div class="num">61,453<span class="unit">보</span></div>
+      <div class="foot">일평균 12,291보 · 10/1~26 기록 없음</div>
+    </div>
+    <div class="kpi">
+      <div class="label">걸음 수 · 7일<span class="per">10/25~31 (5일 측정)</span></div>
+      <div class="num">61,453<span class="unit">보</span></div>
+      <div class="foot">일평균 12,291보 · 10/25·26 기록 없음</div>
+    </div>
+    <div class="kpi">
+      <div class="label">오른 층 · 한 달<span class="per">10/27~31 (5일 측정)</span></div>
+      <div class="num">27<span class="unit">층</span></div>
+      <div class="foot">일평균 5.4층 · 내려간 층 42층</div>
+    </div>
+    <div class="kpi">
+      <div class="label">오른 층 · 7일<span class="per">10/25~31 (5일 측정)</span></div>
+      <div class="num">27<span class="unit">층</span></div>
+      <div class="foot">일평균 5.4층 · 내려간 층 42층</div>
+    </div>
+  </div>
+
+  <!-- Achievement green box -->
+  <section aria-labelledby="oAchieveH">
+    <div class="achieve">
+      <h2 id="oAchieveH">달성 현황 · 가민 실측</h2>
+      <ul>
+        <li><span class="check" aria-hidden="true">✓</span><span><span class="who">10월 28일(수) 가민 첫 러닝</span> — 5.07km, 37분 04초, 평균 7′19″/km, 평균 심박 145 / 최대 167, 492kcal · 05:33 출발</span></li>
+        <li><span class="check" aria-hidden="true">✓</span><span><span class="who">10월 28일(수) 사이클링 10.02km</span> — 1시간 08분 26초, 평균 8.8km/h, 평균 심박 119 / 최대 151, 528kcal · 08:01 출발</span></li>
+        <li><span class="check" aria-hidden="true">✓</span><span><span class="who">10월 30일(금) 트레드밀 0.64km</span> — 9분 59초, 평균 15′37″/km, 평균 심박 126 / 최대 136, 109kcal · 11:52 시작</span></li>
+        <li><span class="check" aria-hidden="true">✓</span><span><span class="who">10월 30일(금) 사이클링 7.63km</span> — 24분 09초, 평균 19.0km/h, 평균 심박 132 / 최대 153, 277kcal · 17:34 출발</span></li>
+        <li><span class="check" aria-hidden="true">✓</span><span><span class="who">10월 가민 합계</span> — 활동 4건 · 23.36km · 2시간 19분 38초 · 약 1,406kcal (러닝 2회 5.71km / 자전거 2회 17.65km)</span></li>
+        <li><span class="check" aria-hidden="true">✓</span><span><span class="who">체중</span> — 10/27 20:42 <b>90.5kg</b> (BMI 29.9) → 10/31 08:37 <b>89.3kg</b> (BMI 29.5) · 4일간 −1.2kg · 10월 측정은 이 2일</span></li>
+        <li><span class="check" aria-hidden="true">✓</span><span><span class="who">걸음 수 (5일 측정)</span> — 10/28 22,695보(최다) · 10/31 13,833보 · 10/29 12,728보 · 10/30 11,954보 · 10/27 243보(워치 첫날) · 합계 61,453보</span></li>
+        <li><span class="check" aria-hidden="true">✓</span><span><span class="who">오른 층 (5일 측정)</span> — 10/28 12층 · 10/29 6층 · 10/31 5층 · 10/30 4층 · 10/27 0층 · 합계 27층 (내려간 층 42층)</span></li>
+      </ul>
+      <p class="missed"><b>가민 미기록:</b> 10/1~10/26은 활동·걸음·층·체중 모두 가민에 없음 (워치 첫 동기화 10/27 12:15) · 웨이트 0회 (10/6은 본인 기록만) · 10/27 걸음 243보는 동기화 이후만 집계된 값 · 10월 러닝 2회 5.71km로 11월(11/1~22 9회)과 같은 기준으로 비교할 볼륨은 아님 · 폰 GPS 기록 4회는 아래 표에 '가민 외'로 구분.</p>
+    </div>
+  </section>
+
+  <!-- Milestones -->
+  <section aria-labelledby="oMileH">
+    <h2 id="oMileH">10월 기록 지점</h2>
+    <div class="miles">
+      <div class="mile"><div class="d">10월 27일(화)</div><div class="t">워치 첫 동기화 12:15</div><div class="x">체중 90.5kg (20:42) · 걸음 243보</div></div>
+      <div class="mile"><div class="d">10월 28일(수)</div><div class="t">가민 첫 러닝 5.07km</div><div class="x">7′19″/km · 심박 145 · 같은 날 사이클링 10.02km</div></div>
+      <div class="mile"><div class="d">10월 30일(금)</div><div class="t">트레드밀 0.64km + 사이클링 7.63km</div><div class="x">10월 마지막 가민 활동일</div></div>
+      <div class="mile"><div class="d">10월 31일(토)</div><div class="t">체중 89.3kg</div><div class="x">10/27 90.5kg에서 4일간 −1.2kg</div></div>
+    </div>
+  </section>
+
+  <!-- Chart -->
+  <section aria-labelledby="oChartH">
+    <div class="card">
+      <div class="section-head">
+        <h2 id="oChartH">날짜별 러닝 거리</h2>
+        <div class="legend"><span><i class="sw" style="background:#0f6b3f"></i>가민 실측</span><span><i class="sw" style="background:#a9c9b7;border:1px dashed #5f8f74"></i>가민 외 (폰 GPS)</span><span>막대 없는 날은 러닝 기록 없음</span></div>
+      </div>
+      <p class="small muted" style="margin-bottom:10px">10월 1~31일 실측 러닝 거리. 진한 초록은 가민 커넥트 기록(10/28 5.07km · 10/30 트레드밀 0.64km), 연한 초록 점선은 가민에 남아 있지 않은 폰 GPS 기록(10/2 · 10/4 · 10/9 · 10/25)이다.</p>
+      <div class="chart-wrap" id="oChartWrap" role="img" aria-label="2026년 10월 날짜별 러닝 거리 막대 그래프"></div>
+      <div class="weeks" id="oWeeks"></div>
+    </div>
+  </section>
+
+  <!-- Schedule -->
+  <section aria-labelledby="oSchedH">
+    <div class="section-head">
+      <h2 id="oSchedH">10월 일정표</h2>
+      <span class="note">날짜를 누르면 아래에 상세가 뜹니다 · 활동량은 가민 걸음 수·오른 층 · 가민에 없는 날은 — · 폰 GPS·본인 기록은 '가민 외'</span>
+    </div>
+
+    <div class="toolbar" role="group" aria-label="10월 일정 보기 조절">
+      <div class="group" id="oKindFilters" role="group" aria-label="종류별 보기">
+        <button type="button" class="chip" data-kind="all" aria-pressed="true">전체</button>
+        <button type="button" class="chip" data-kind="run" aria-pressed="false">러닝</button>
+        <button type="button" class="chip" data-kind="weight" aria-pressed="false">웨이트</button>
+        <button type="button" class="chip" data-kind="bike" aria-pressed="false">자전거</button>
+        <button type="button" class="chip" data-kind="none" aria-pressed="false">기록 없음</button>
+      </div>
+      <span class="sep" aria-hidden="true"></span>
+      <div class="group" id="oWeekFilters" role="group" aria-label="구간별 보기">
+        <button type="button" class="chip" data-week="all" aria-pressed="true">10월 전체</button>
+        <button type="button" class="chip" data-week="w1" aria-pressed="false">1~7일</button>
+        <button type="button" class="chip" data-week="w2" aria-pressed="false">8~14일</button>
+        <button type="button" class="chip" data-week="w3" aria-pressed="false">15~21일</button>
+        <button type="button" class="chip" data-week="w4" aria-pressed="false">22~28일</button>
+        <button type="button" class="chip" data-week="w5" aria-pressed="false">29~31일</button>
+      </div>
+      <div class="group view-toggle" role="group" aria-label="보기 방식">
+        <button type="button" class="chip" id="oViewTable" aria-pressed="true">표</button>
+        <button type="button" class="chip" id="oViewCal" aria-pressed="false">달력</button>
+        <button type="button" class="chip" id="oViewWeekly" aria-pressed="false">주간 루틴</button>
+      </div>
+    </div>
+    <p class="count-line" id="oCountLine"></p>
+
+    <div class="card schedule-wrap" id="oTableView" style="padding:6px 10px 10px">
+      <table class="schedule">
+        <thead><tr><th scope="col">날짜</th><th scope="col">아침</th><th scope="col">점심</th><th scope="col">저녁</th><th scope="col">활동량</th><th scope="col">상태</th></tr></thead>
+        <tbody id="oSchedBody"></tbody>
+      </table>
+    </div>
+
+    <div class="day-cards" id="oCardView"></div>
+
+    <div id="oCalView" hidden>
+      <div class="cal-head" aria-hidden="true"><div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div></div>
+      <div class="cal-grid" id="oCalGrid"></div>
+    </div>
+
+    <div id="oWeeklyView" hidden>
+      <div id="oWeeklyContent"></div>
+    </div>
+
+    <div class="detail" id="oDayDetail" aria-live="polite"></div>
+  </section>
+
+  <!-- Reference -->
+  <section aria-labelledby="oRefH">
+    <h2 id="oRefH">10월 체중 · 활동량 (가민 실측)</h2>
+    <div class="grid2">
+      <div class="ref-card">
+        <h3>체중 · 걸음 · 오른 층</h3>
+        <ul>
+          <li>체중 — 10/27 20:42 <b>90.5kg</b> (BMI 29.9, 같은 시각 2건) · 10/31 08:37 <b>89.3kg</b> (BMI 29.5) · 10월 측정은 이 2일뿐</li>
+          <li>걸음 — 10/27 243 → 10/28 22,695 → 10/29 12,728 → 10/30 11,954 → 10/31 13,833 · 합계 61,453보 (일평균 12,291보)</li>
+          <li>오른 층 — 0 → 12 → 6 → 4 → 5 · 합계 27층 (일평균 5.4층) · 내려간 층 0 → 15 → 13 → 5 → 9 · 합계 42층</li>
+          <li>교차검증 — 가민 4주(10/27~11/23) 총 걸음 428,046 − 11월(11/1~23) 366,593 = 61,453보, 4주 오른 층 368 − 11월 341 = 27층으로 정확히 일치</li>
+          <li>기기 — 포러너 265 · 첫 동기화 10/27 12:15 · 10/26 이전은 기기 기록 없음</li>
+        </ul>
+      </div>
+      <div class="ref-card">
+        <h3>가민 외 기록 <span class="ext-tag">폰 GPS · 본인 기록</span></h3>
+        <ul class="timeline">
+          <li><span class="td">10/2</span><span>복귀런 5.3km · 평균 6′41″/km · 평균 심박 134</span></li>
+          <li><span class="td">10/4</span><span>6.25km 러닝 후 왼발목 불편 신호</span></li>
+          <li><span class="td">10/6</span><span>웨이트 기록 있음 (당시 체중 93kg)</span></li>
+          <li><span class="td">10/8</span><span>스킵 — 왼 아킬레스 + 오른 햄스트링 뻐근함</span></li>
+          <li><span class="td">10/9</span><span>6km A 평가 · 평균 6′39″/km · 평균 심박 133</span></li>
+          <li><span class="td">10/25</span><span>10km 1회차 · 1시간 18분 09초 · 평균 7′48″/km · 평균 심박 144</span></li>
+        </ul>
+        <p class="small muted" style="margin-top:12px">이 6건은 가민 커넥트에 남아 있지 않아 표·상세·차트에서 '가민 외'로 구분했다. 폰 GPS·본인 기록 기준이라 가민 실측과 같은 기준으로 더하면 안 된다 (참고: 폰 GPS 러닝 4회 27.55km).</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>가민 커넥트 2026년 10월 데이터를 2026년 11월 23일 10:10에 조회했다. 활동 4건·걸음·오른 층·체중은 가민 표시값 그대로이며, 워치 첫 동기화(10/27 12:15) 이전 날짜는 값이 없어 0이 아니라 —로 표시했다. '가민 외' 표기는 가민에 기록이 없는 폰 GPS·본인 기록이다.</footer>
+
+  </div><!-- /#month-10 -->
 </main>
 
 <script>
@@ -957,6 +1162,354 @@
      treating "table" as cards there (CSS hides the table, shows cards). */
   renderAll();
   setView("table");
+})();
+</script>
+
+<script>
+/* ===== 2026년 10월 탭 (가민 커넥트 실측) ===== */
+(function(){
+  "use strict";
+  var DOW=["일","월","화","수","목","금","토"];
+  function dowFor(d){return DOW[(d+3)%7];}          /* 10/1 = 목요일 */
+  function fmt(n){return (Math.round(n*100)/100).toString().replace(/\.0+$/,"");}
+  function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+
+  function slot(kind,label,opts){var s={kind:kind,label:label};if(opts){for(var k in opts){s[k]=opts[k];}}return s;}
+  function none(){return slot("none","—");}
+  function gRun(km,time,opts){var o={km:km,garmin:true,short:"러닝 "+km+"km"};if(opts){for(var k in opts){o[k]=opts[k];}}return slot("run","러닝 "+km+"km · "+time,o);}
+  function eRun(km,time,opts){var o={km:km,ext:true,short:"러닝 "+km+"km"};if(opts){for(var k in opts){o[k]=opts[k];}}return slot("run","러닝 "+km+"km · "+time,o);}
+  function bike(label,opts){var o={garmin:true,short:label};if(opts){for(var k in opts){o[k]=opts[k];}}return slot("bike",label,o);}
+  function eWeight(label,opts){var o={ext:true,short:label};if(opts){for(var k in opts){o[k]=opts[k];}}return slot("weight",label,o);}
+  function skip(label){return slot("rest",label,{missed:true,ext:true,short:"스킵"});}
+
+  /* 가민 일별 요약값 (2026-11-23 10:00 조회) — s: 걸음 수, f: 오른 층, dn: 내려간 층 */
+  var ACT={
+    27:{s:243,f:0,dn:0,note:"워치 첫날"},
+    28:{s:22695,f:12,dn:15},
+    29:{s:12728,f:6,dn:13},
+    30:{s:11954,f:4,dn:5},
+    31:{s:13833,f:5,dn:9}
+  };
+  var WEIGHT={27:"90.5kg · 20:42 (BMI 29.9)",31:"89.3kg · 08:37 (BMI 29.5)"};
+
+  var DAYS=[];
+  for(var i=1;i<=31;i++){DAYS.push({d:i,morning:none(),lunch:none(),evening:none(),status:"none"});}
+  function D(d){return DAYS[d-1];}
+
+  D(2).morning=eRun(5.3,"복귀런",{detail:"폰 GPS 기록(가민 외) · 평균 6′41″/km · 평균심박 134"});
+  D(2).status="ext";
+  D(4).morning=eRun(6.25,"왼발목 불편",{detail:"폰 GPS 기록(가민 외) · 러닝 후 왼발목 불편 신호"});
+  D(4).status="ext";
+  D(6).lunch=eWeight("웨이트 — 본인 기록만",{detail:"가민 기록 없음 · 당시 체중 93kg"});
+  D(6).status="ext";
+  D(8).morning=skip("스킵 — 왼 아킬레스·오른 햄스트링 뻐근함");
+  D(8).status="ext";
+  D(9).morning=eRun(6,"A 평가",{detail:"폰 GPS 기록(가민 외) · 평균 6′39″/km · 평균심박 133"});
+  D(9).status="ext";
+  D(25).morning=eRun(10,"1:18:09",{key:true,detail:"10km 1회차 · 폰 GPS 기록(가민 외) · 평균 7′48″/km · 평균심박 144"});
+  D(25).key=true; D(25).status="ext";
+  D(27).status="partial";
+  D(28).morning=gRun(5.07,"37:04",{timeDetail:"평균 7′19″/km · 평균심박 145 / 최대 167 · 492kcal",detail:"05:33 출발 · 가민 활동"});
+  D(28).lunch=bike("사이클링 10.02km · 1:08:26",{short:"사이클링 10.02km",detail:"08:01 출발 · 평균 8.8km/h · 평균심박 119 / 최대 151 · 528kcal"});
+  D(28).status="done";
+  D(29).status="partial";
+  D(30).lunch=gRun(0.64,"트레드밀 9:59",{timeDetail:"평균 15′37″/km · 평균심박 126 / 최대 136 · 109kcal",detail:"11:52 시작 · 가민 활동"});
+  D(30).evening=bike("사이클링 7.63km · 24:09",{short:"사이클링 7.63km",detail:"17:34 출발 · 평균 19.0km/h · 평균심박 132 / 최대 153 · 277kcal"});
+  D(30).status="done";
+  D(31).status="partial";
+
+  function statusText(day){
+    if(day.status==="done"){return "가민 기록";}
+    if(day.status==="ext"){return "가민 외";}
+    if(day.status==="partial"){return "일부 기록";}
+    return "기록 없음";
+  }
+  function statusCls(day){
+    if(day.status==="done"){return "done";}
+    if(day.status==="ext"){return "ext";}
+    if(day.status==="partial"){return "partial";}
+    return "none";
+  }
+  function cellHtml(s){
+    if(s.kind==="none"){return '<span class="empty">—</span>';}
+    var h='<span class="'+(s.ext?"cell-ext":(s.garmin?"cell-done":"")) +'">'+esc(s.label)+'</span>';
+    if(s.ext){h+='<span class="ext-tag">가민 외</span>';}
+    if(s.timeDetail){h+='<div class="detail-note">'+esc(s.timeDetail)+'</div>';}
+    if(s.detail){h+='<div class="detail-note">'+esc(s.detail)+'</div>';}
+    return h;
+  }
+  function actHtml(d){
+    var a=ACT[d];
+    if(!a){return '<span class="act-cell"><span class="na">—</span></span>';}
+    var h='<span class="act-cell">';
+    h+='<span class="s">'+a.s.toLocaleString()+'</span><span class="u">보</span> <span class="f">·</span> <span class="s">'+a.f+'</span><span class="u">층</span>';
+    if(a.note){h+=' <span class="u">'+esc(a.note)+'</span>';}
+    h+='</span>';
+    return h;
+  }
+  function actRow(d){
+    var a=ACT[d],parts=[];
+    if(!a){parts.push("가민 기록 없음");}
+    else{
+      parts.push(a.s.toLocaleString()+"보");
+      parts.push("오른 층 "+a.f+"층");
+      parts.push("내려간 층 "+a.dn+"층");
+      if(a.note){parts.push(a.note);}
+    }
+    if(WEIGHT[d]){parts.push("체중 "+WEIGHT[d]);}
+    return '<div class="row"><dt>활동량</dt><dd>'+esc(parts.join(" · "))+'</dd></div>';
+  }
+
+  var state={kind:"all",week:"all",view:"table",selected:28};
+  function weekOf(d){ if(d<=7){return "w1";} if(d<=14){return "w2";} if(d<=21){return "w3";} if(d<=28){return "w4";} return "w5"; }
+  function dayMatches(day){
+    if(state.week!=="all"&&weekOf(day.d)!==state.week){return false;}
+    if(state.kind==="all"){return true;}
+    if(state.kind==="none"){return day.status==="none";}
+    return [day.morning,day.lunch,day.evening].some(function(s){return s.kind===state.kind;});
+  }
+
+  function renderTable(){
+    var tb=document.getElementById("oSchedBody");
+    tb.innerHTML="";
+    var shown=0;
+    DAYS.forEach(function(day){
+      if(!dayMatches(day)){return;}
+      shown++;
+      var tr=document.createElement("tr");
+      tr.dataset.date=day.d;
+      if(day.d===state.selected){tr.className+=" selected";}
+      var badges="";
+      if(day.key){badges+='<span class="badge key">★ 10km</span>';}
+      tr.innerHTML=
+        '<td class="date-cell'+(dowFor(day.d)==="일"?" sun":"")+'">10/'+day.d+'<span class="dow">'+dowFor(day.d)+'</span>'+badges+'</td>'+
+        '<td>'+cellHtml(day.morning)+'</td>'+
+        '<td>'+cellHtml(day.lunch)+'</td>'+
+        '<td>'+cellHtml(day.evening)+'</td>'+
+        '<td>'+actHtml(day.d)+'</td>'+
+        '<td><span class="badge '+statusCls(day)+'" style="margin-left:0">'+statusText(day)+'</span></td>';
+      tr.addEventListener("click",function(){selectDay(day.d,true);});
+      tb.appendChild(tr);
+    });
+    document.getElementById("oCountLine").textContent=shown+"일 표시 중 (10월 전체 31일)";
+  }
+
+  function renderCards(){
+    var wrap=document.getElementById("oCardView");
+    wrap.innerHTML="";
+    DAYS.forEach(function(day){
+      if(!dayMatches(day)){return;}
+      var b=document.createElement("button");
+      b.type="button"; b.className="day-card"+(day.d===state.selected?" selected":"");
+      b.dataset.date=day.d;
+      var head='10/'+day.d+' ('+dowFor(day.d)+')'+(day.key?' <span class="badge key">★ 10km</span>':"")+' <span class="badge '+statusCls(day)+'">'+statusText(day)+'</span>';
+      b.innerHTML='<div class="head">'+head+'</div>'+
+        '<div class="slot-row"><span class="slot-label">아침</span><span>'+cellHtml(day.morning)+'</span></div>'+
+        '<div class="slot-row"><span class="slot-label">점심</span><span>'+cellHtml(day.lunch)+'</span></div>'+
+        '<div class="slot-row"><span class="slot-label">저녁</span><span>'+cellHtml(day.evening)+'</span></div>'+
+        '<div class="slot-row"><span class="slot-label">활동량</span><span class="act-line">'+actHtml(day.d)+'</span></div>';
+      b.addEventListener("click",function(){selectDay(day.d,true);});
+      wrap.appendChild(b);
+    });
+  }
+
+  function renderCal(){
+    var grid=document.getElementById("oCalGrid");
+    grid.innerHTML="";
+    var lead=DOW.indexOf(dowFor(1)); /* 10/1은 목요일 → 앞에 일·월·화·수 4칸 */
+    for(var k=0;k<lead;k++){
+      var pad=document.createElement("div");
+      pad.className="cal-cell dim";
+      pad.setAttribute("aria-hidden","true");
+      pad.style.visibility="hidden";
+      grid.appendChild(pad);
+    }
+    DAYS.forEach(function(day){
+      var b=document.createElement("button");
+      b.type="button";
+      b.className="cal-cell"+(day.d===state.selected?" selected":"")+(dayMatches(day)?"":" dim");
+      b.dataset.date=day.d;
+      var lines="";
+      [day.morning,day.lunch,day.evening].forEach(function(s){
+        if(s.kind==="none"){return;}
+        lines+='<span class="line"><span class="dot '+s.kind+'"></span><span>'+esc(s.short||s.label)+(s.garmin?" ✓":"")+'</span></span>';
+      });
+      b.innerHTML='<span class="num'+(dowFor(day.d)==="일"?" sun":"")+'">'+day.d+'<span class="dow-s">'+dowFor(day.d)+'</span></span>'+lines;
+      if(WEIGHT[day.d]){b.innerHTML+='<span class="line"><span class="dot weight"></span><span>'+esc(WEIGHT[day.d].split(" ")[0])+'</span></span>';}
+      if(day.status==="done"){b.innerHTML+='<span class="done-mark">가민 기록</span>';}
+      b.addEventListener("click",function(){selectDay(day.d,true);});
+      grid.appendChild(b);
+    });
+  }
+
+  function renderDetail(){
+    var day=DAYS[state.selected-1];
+    var box=document.getElementById("oDayDetail");
+    if(!box){return;}
+    function row(label,s){
+      var extra="";
+      if(s.timeDetail){extra+=' <span class="muted">· '+esc(s.timeDetail)+'</span>';}
+      if(s.detail){extra+=' <span class="muted">· '+esc(s.detail)+'</span>';}
+      var tag=s.ext?' <span class="ext-tag">가민 외</span>':"";
+      var st=s.garmin?' <span class="badge done" style="margin-left:0">가민 기록</span>':(s.missed?' <span class="badge partial" style="margin-left:0">미실시</span>':"");
+      return '<div class="row"><dt>'+label+'</dt><dd>'+esc(s.label)+extra+tag+st+'</dd></div>';
+    }
+    box.innerHTML='<h3>10월 '+day.d+'일 ('+dowFor(day.d)+')</h3><dl>'+
+      row("아침",day.morning)+row("점심",day.lunch)+row("저녁",day.evening)+actRow(day.d)+'</dl>';
+  }
+
+  function renderWeekly(){
+    var wrap=document.getElementById("oWeeklyContent");
+    if(!wrap){return;}
+    function rowHtml(day){
+      var badges="";
+      if(day.key){badges+='<span class="badge key">★ 10km</span>';}
+      var trCls=(day.d===state.selected)?' class="selected"':"";
+      return '<tr data-date="'+day.d+'"'+trCls+'>'+
+        '<td class="date-cell'+(dowFor(day.d)==="일"?" sun":"")+'">10/'+day.d+'<span class="dow">'+dowFor(day.d)+'</span>'+badges+'</td>'+
+        '<td>'+cellHtml(day.morning)+'</td>'+
+        '<td>'+cellHtml(day.lunch)+'</td>'+
+        '<td>'+cellHtml(day.evening)+'</td>'+
+        '<td>'+actHtml(day.d)+'</td>'+
+        '<td><span class="badge '+statusCls(day)+'" style="margin-left:0">'+statusText(day)+'</span></td></tr>';
+    }
+    function block(from,to,title){
+      var rows="",shown=0;
+      for(var d=from;d<=to;d++){
+        var day=DAYS[d-1];
+        if(!day||!dayMatches(day)){continue;}
+        rows+=rowHtml(day); shown++;
+      }
+      if(!shown){rows='<tr><td colspan="6" class="muted">이 구간에는 선택한 종류의 기록이 없습니다</td></tr>';}
+      return '<div class="card" style="margin-bottom:16px"><h3 style="margin:0 0 10px">'+title+'</h3>'+
+        '<table class="schedule"><thead><tr><th>날짜</th><th>아침</th><th>점심</th><th>저녁</th><th>활동량</th><th>상태</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+    }
+    function title(name,from,to){
+      return name+' · 10/'+from+'('+dowFor(from)+')'+(from===to?'':' ~ 10/'+to+'('+dowFor(to)+')');
+    }
+    var html="";
+    html+=block(1,4,title("1주차",1,4));
+    html+=block(5,11,title("2주차",5,11));
+    html+=block(12,18,title("3주차",12,18));
+    html+=block(19,25,title("4주차",19,25));
+    html+=block(26,31,title("5주차",26,31));
+    wrap.innerHTML=html;
+  }
+
+  function renderAll(){ renderTable(); renderCards(); renderCal(); renderDetail(); renderWeekly(); }
+  function selectDay(d,fromClick){
+    state.selected=d;
+    renderAll();
+    if(fromClick){
+      document.querySelectorAll("#month-10 [data-date='"+d+"'].selected").forEach(function(el){
+        el.scrollIntoView({block:"nearest",behavior:"smooth"});
+      });
+    }
+  }
+
+  document.getElementById("oKindFilters").addEventListener("click",function(e){
+    var btn=e.target.closest("button[data-kind]"); if(!btn){return;}
+    state.kind=btn.dataset.kind;
+    this.querySelectorAll("button").forEach(function(b){b.setAttribute("aria-pressed",String(b===btn));});
+    renderAll();
+  });
+  document.getElementById("oWeekFilters").addEventListener("click",function(e){
+    var btn=e.target.closest("button[data-week]"); if(!btn){return;}
+    state.week=btn.dataset.week;
+    this.querySelectorAll("button").forEach(function(b){b.setAttribute("aria-pressed",String(b===btn));});
+    renderAll();
+  });
+  var vt=document.getElementById("oViewTable"), vc=document.getElementById("oViewCal"), vw=document.getElementById("oViewWeekly");
+  function setView(v){
+    state.view=v;
+    vt.setAttribute("aria-pressed",String(v==="table"));
+    vc.setAttribute("aria-pressed",String(v==="cal"));
+    vw.setAttribute("aria-pressed",String(v==="weekly"));
+    document.getElementById("oTableView").hidden=v!=="table";
+    document.getElementById("oCardView").hidden=v!=="table";
+    document.getElementById("oCalView").hidden=v!=="cal";
+    document.getElementById("oWeeklyView").hidden=v!=="weekly";
+    if(window.matchMedia("(max-width: 760px)").matches){document.getElementById("oTableView").hidden=true;}
+  }
+  vt.addEventListener("click",function(){setView("table");});
+  vc.addEventListener("click",function(){setView("cal");});
+  vw.addEventListener("click",function(){setView("weekly");});
+  document.getElementById("oWeeklyContent").addEventListener("click",function(e){
+    var tr=e.target.closest("tr[data-date]");
+    if(!tr){return;}
+    selectDay(parseInt(tr.dataset.date,10),true);
+  });
+
+  /* ---- 날짜별 러닝 거리 차트 ---- */
+  (function octChart(){
+    var W=720,H=250,ML=38,MR=10,MT=26,MB=30;
+    var pw=W-ML-MR, ph=H-MT-MB, yMax=11;
+    var G={28:5.07,30:0.64};
+    var E={2:5.3,4:6.25,9:6,25:10};
+    function y(v){return MT+ph-(v/yMax)*ph;}
+    var n=31, slotW=pw/n, bw=Math.min(18,slotW-6);
+    var ns="http://www.w3.org/2000/svg";
+    var svg=document.createElementNS(ns,"svg");
+    svg.setAttribute("viewBox","0 0 "+W+" "+H); svg.setAttribute("class","chart"); svg.setAttribute("role","presentation");
+    svg.setAttribute("aria-label","2026년 10월 날짜별 러닝 거리. 가민 실측 10월 28일 5.07km, 10월 30일 0.64km. 가민 외 폰 GPS 10월 2일 5.3km, 10월 4일 6.25km, 10월 9일 6km, 10월 25일 10km.");
+    function el(name,attrs,parent){var e=document.createElementNS(ns,name);for(var k in attrs){e.setAttribute(k,attrs[k]);}if(parent){parent.appendChild(e);}return e;}
+    function txt(x,yv,str,attrs){var t=el("text",{x:x,y:yv,"font-size":attrs&&attrs.size?attrs.size:10,"fill":attrs&&attrs.fill?attrs.fill:"#5d6c60","text-anchor":attrs&&attrs.anchor?attrs.anchor:"middle","font-weight":attrs&&attrs.bold?"700":"400"},svg);t.textContent=str;return t;}
+    [0,5,10].forEach(function(v){
+      el("line",{x1:ML,x2:W-MR,y1:y(v),y2:y(v),stroke:"#dde3da","stroke-width":1},svg);
+      txt(ML-6,y(v)+3,String(v),{anchor:"end",size:10});
+    });
+    el("line",{x1:ML,x2:ML,y1:MT-6,y2:MT+ph,stroke:"#dde3da","stroke-width":1},svg);
+    el("line",{x1:ML,x2:W-MR,y1:MT+ph,y2:MT+ph,stroke:"#dde3da","stroke-width":1},svg);
+    txt(ML-6,MT-10,"km",{anchor:"end",size:10});
+    for(var d=1; d<=31; d++){
+      var cx=ML+(d-1)*slotW+slotW/2;
+      var g=G[d]||0, ev=E[d]||0, v=g||ev;
+      if(v){
+        var h=(v/yMax)*ph;
+        var r=el("rect",{x:cx-bw/2,y:y(v),width:bw,height:h,rx:3},svg);
+        if(g){r.setAttribute("fill","#0f6b3f");}
+        else{r.setAttribute("fill","#a9c9b7");r.setAttribute("stroke","#5f8f74");r.setAttribute("stroke-dasharray","3 2");}
+        txt(cx,y(v)-5,fmt(v),{size:9.5,bold:!!g,fill:g?"#0b5a34":"#5d6c60"});
+      }
+      txt(cx,MT+ph+16,String(d),{size:10,bold:d===25,fill:d===25?"#9a6a12":"#5d6c60"});
+    }
+    document.getElementById("oChartWrap").appendChild(svg);
+
+    var weeks=[{label:"1~7일",from:1,to:7},{label:"8~14일",from:8,to:14},{label:"15~21일",from:15,to:21},{label:"22~28일",from:22,to:28},{label:"29~31일",from:29,to:31}];
+    var wrap=document.getElementById("oWeeks");
+    weeks.forEach(function(w){
+      var gs=0,es=0;
+      for(var d2=w.from; d2<=w.to; d2++){
+        gs+=G[d2]||0; es+=E[d2]||0;
+      }
+      var div=document.createElement("div"); div.className="week";
+      div.innerHTML='<div class="wl"></div><div class="wv"></div><div class="small muted"></div>';
+      div.querySelector(".wl").textContent=w.label;
+      div.querySelector(".wv").innerHTML=(gs?fmt(gs):"0")+' <span class="unit">km 가민</span>';
+      div.querySelector(".small").textContent=(es?("가민 외 "+fmt(es)+"km"):"가민 외 기록 없음");
+      wrap.appendChild(div);
+    });
+  })();
+
+  renderAll();
+  setView("table");
+})();
+
+/* ---- 월 전환 탭 ---- */
+(function(){
+  var b11=document.getElementById("tabMonth11"), b10=document.getElementById("tabMonth10");
+  var p11=document.getElementById("month-11"), p10=document.getElementById("month-10");
+  if(!b11||!b10||!p11||!p10){return;}
+  function show(m){
+    var is11=(m==="11");
+    p11.hidden=!is11; p10.hidden=is11;
+    b11.setAttribute("aria-pressed",String(is11));
+    b10.setAttribute("aria-pressed",String(!is11));
+    document.title="운동 대시보드 — "+(is11?"2026년 11월":"2026년 10월");
+  }
+  b11.addEventListener("click",function(){show("11");window.scrollTo(0,0);});
+  b10.addEventListener("click",function(){show("10");window.scrollTo(0,0);});
+  if(location.hash==="#october"||location.hash==="#10"){show("10");}
 })();
 </script>
 </body>
