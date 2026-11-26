@@ -774,7 +774,8 @@
   };
 
   /* ---- KPIs computed from the same DAYS array ---- */
-  var runPlan=0, runDone=0, runDaysPlan=0, runDaysDone=0, wPlan=0, wDone=0, bPlan=0, bDone=0;
+  // 러닝 목표 거리는 최초 업로드 버전(0dea79b:space-4.html) 기준 113.88km로 고정 — DAYS 합산하지 않는다
+  var runPlan=113.88, runDone=0, runDaysPlan=0, runDaysDone=0, wPlan=0, wDone=0, bPlan=0, bDone=0;
   var wKg=0, bKm=0;
   // Weight totals by date (kg) - from Garmin records and manual calculations
   var wKgByDay={2:8448, 3:10080, 5:13464, 9:9642, 10:9540, 17:9614, 18:17268, 20:11730, 23:9962};
@@ -782,7 +783,7 @@
   var bKmByDay={4:6.31, 5:7.62, 9:7.60, 10:6.98, 11:7.63, 13:7.03, 18:1.51, 20:8.57, 22:6.08};
   DAYS.forEach(function(day){
     [day.morning,day.lunch,day.evening].forEach(function(s){
-      if(s.kind==="run"){runDaysPlan++; runPlan+=s.km; if(s.done){runDaysDone++; runDone+=s.km;}}
+      if(s.kind==="run"){runDaysPlan++; if(s.done){runDaysDone++; runDone+=s.km;}}
       if(s.kind==="weight"){wPlan++; if(s.done){wDone++; if(wKgByDay[day.d]){wKg+=wKgByDay[day.d];}}}
       if(s.kind==="bike"){bPlan++; if(s.done){bDone++; if(bKmByDay[day.d]){bKm+=bKmByDay[day.d];}}}
     });
